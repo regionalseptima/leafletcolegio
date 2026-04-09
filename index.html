@@ -10,35 +10,37 @@
   --p:#BA6B82;--pd:#9E5A6F;--pl:#E8C4D0;--pp:#F7E9EE;--ppu:#FDF5F7;
   --w:#FFF;--td:#3D2E34;--tm:#6B5560;--tl:#9B8790;--bg:#FFFAFB;
   --wa:#25D366;--er:#E53935;--erl:#FFEBEE;--su:#2E7D32;--sul:#E8F5E9;
-  --or:#E65100;--orl:#FFF3E0;
+  --or:#E65100;--orl:#FFF3E0;--bl:#1565C0;--bll:#E3F2FD;
   --sh:0 2px 12px rgba(0,0,0,.07);--shl:0 8px 30px rgba(0,0,0,.1);
-  --r:16px;--rs:10px;
+  --r:16px;--rs:10px;--tr:all .25s cubic-bezier(.4,0,.2,1);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--td);line-height:1.6;overflow-x:hidden}
+body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--td);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* ===== LOGO ===== */
-.logo-wrap{display:flex;align-items:center;gap:0}
-.logo-text{font-family:'Inter',sans-serif;font-weight:800;font-size:22px;color:var(--p);letter-spacing:-1px;line-height:1}
-.logo-palm{position:relative;display:inline-block}
-.logo-palm svg{width:28px;height:36px;position:absolute;top:-22px;left:50%;transform:translateX(-50%)}
+.logo-wrap{display:flex;align-items:center;gap:0;user-select:none}
+.logo-palm{position:relative;display:inline-block;width:28px;height:36px}
+.logo-palm svg{width:100%;height:100%}
+.logo-text{font-weight:800;font-size:22px;color:var(--p);letter-spacing:-1px;line-height:1}
 
 /* ===== HEADER ===== */
-.hdr{background:rgba(255,255,255,.97);border-bottom:1px solid var(--pp);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.hdr{background:rgba(255,255,255,.97);border-bottom:1px solid var(--pp);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .hdr-in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
 .hdr-r{display:flex;align-items:center;gap:10px}
 .badge{background:var(--pp);color:var(--pd);padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
-.cart-btn{position:relative;background:var(--p);color:#fff;border:none;border-radius:12px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;transition:all .2s}
-.cart-btn:active{transform:scale(.96)}
+.cart-btn{position:relative;background:var(--p);color:#fff;border:none;border-radius:12px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;transition:var(--tr)}
+.cart-btn:active{transform:scale(.95)}
 .cart-cnt{background:#fff;color:var(--p);border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;font-size:10px;font-weight:800;position:absolute;top:-6px;right:-6px}
 .cart-cnt.show{display:flex}
 .cart-cnt.bump{animation:bump .3s ease}
 @keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
 
 /* ===== HERO ===== */
-.hero{background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;text-align:center;padding:44px 16px 36px;position:relative;overflow:hidden}
-.hero h1{font-size:28px;font-weight:700;margin-bottom:8px}
-.hero p{font-size:14px;opacity:.9;max-width:380px;margin:0 auto}
+.hero{background:linear-gradient(135deg,var(--p) 0%,var(--pd) 100%);color:#fff;text-align:center;padding:48px 16px 38px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-20%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-30%;left:-15%;width:250px;height:250px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none}
+.hero h1{font-size:30px;font-weight:700;margin-bottom:8px;position:relative}
+.hero p{font-size:14px;opacity:.9;max-width:380px;margin:0 auto;position:relative}
 
 /* ===== NAV ===== */
 .cnav{background:var(--w);border-bottom:1px solid var(--pp);position:sticky;top:58px;z-index:99}
@@ -56,15 +58,13 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .sec{display:none}.sec.v{display:block;animation:fu .35s ease}
 @keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-.sh{background:var(--w);border-radius:var(--r);padding:20px 16px;margin-bottom:14px;border:1px solid var(--pp);box-shadow:var(--sh)}
+.sh{background:var(--w);border-radius:var(--r);padding:22px 18px;margin-bottom:14px;border:1px solid var(--pp);box-shadow:var(--sh)}
 .sh h2{font-size:22px;font-weight:700;color:var(--pd);margin-bottom:4px}
 .sh .sub{font-size:12px;color:var(--tl);margin-bottom:14px}
 .pr-row{display:flex;flex-wrap:wrap;gap:6px}
 .pr-c{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700}
-.pr-c.cl{background:var(--pp);color:var(--pd)}
-.pr-c.sh{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);color:#8D6E63}
-.pr-c.li{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);color:#6A1B9A}
-.pr-c.va{background:linear-gradient(135deg,#E0F2F1,#B2DFDB);color:#00695C}
+.pr-c.cl{background:var(--pp);color:var(--pd)}.pr-c.sh{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);color:#8D6E63}
+.pr-c.li{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);color:#6A1B9A}.pr-c.va{background:linear-gradient(135deg,#E0F2F1,#B2DFDB);color:#00695C}
 
 /* ===== SUB SECTION ===== */
 .ss{background:var(--w);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--pp);box-shadow:var(--sh)}
@@ -79,15 +79,16 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 @media(min-width:500px){.pg{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:800px){.pg{grid-template-columns:repeat(4,1fr)}}
 
-.pc{padding:12px 10px;border-radius:12px;background:var(--ppu);display:flex;align-items:center;gap:10px;transition:all .2s;border:2px solid transparent;cursor:pointer;user-select:none;position:relative;min-height:52px}
-.pc:active{transform:scale(.97);background:var(--pp)}
+.pc{padding:12px 10px;border-radius:12px;background:var(--ppu);display:flex;align-items:center;gap:10px;transition:var(--tr);border:2px solid transparent;cursor:pointer;user-select:none;position:relative;min-height:54px}
+.pc:hover{border-color:var(--pl);background:var(--pp)}
+.pc:active{transform:scale(.97)}
 .pc.ic{background:var(--pp);border-color:var(--p)}
 .pc-img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:var(--pl);flex-shrink:0}
 .pd{width:8px;height:8px;border-radius:50%;background:var(--p);flex-shrink:0;opacity:.4}
 .pc.ic .pd{opacity:1}
-.pn{font-size:12.5px;font-weight:500;line-height:1.3;flex:1}
+.pn{font-size:12px;font-weight:500;line-height:1.3;flex:1}
 .pf{font-size:13px;flex-shrink:0}
-.add-btn{width:30px;height:30px;border-radius:50%;background:var(--p);color:#fff;border:none;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .2s;line-height:1}
+.add-btn{width:30px;height:30px;border-radius:50%;background:var(--p);color:#fff;border:none;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:var(--tr);line-height:1}
 .add-btn:active{transform:scale(.85);background:var(--pd)}
 .pc.ic .add-btn{background:var(--pd);font-size:13px}
 
@@ -97,7 +98,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .sb.op{background:var(--sul);color:var(--su)}.sb.cl2{background:var(--orl);color:var(--or)}.sb.ls{background:var(--erl);color:var(--er)}
 
 /* ===== GLOSS SPECIAL ===== */
-.gs{background:linear-gradient(135deg,var(--p),var(--pd));border-radius:var(--r);padding:28px 16px;color:#fff;text-align:center;margin-bottom:14px;box-shadow:var(--shl);position:relative;overflow:hidden}
+.gs{background:linear-gradient(135deg,var(--p),var(--pd));border-radius:var(--r);padding:30px 18px;color:#fff;text-align:center;margin-bottom:14px;box-shadow:var(--shl);position:relative;overflow:hidden}
 .gs::before{content:'';position:absolute;top:-40%;right:-20%;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
 .gb{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
 .gs h2{font-size:26px;margin-bottom:6px}
@@ -117,7 +118,6 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .cs-items{flex:1;overflow-y:auto;padding:14px 20px;-webkit-overflow-scrolling:touch}
 .cs-empty{text-align:center;padding:40px 16px;color:var(--tl)}
 .cs-empty .ei{font-size:44px;margin-bottom:10px;opacity:.4}
-.cs-empty p{font-size:13px}
 .cs-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:var(--ppu);margin-bottom:8px;transition:background .2s}
 .cs-item:hover{background:var(--pp)}
 .cs-item-in{flex:1;min-width:0}
@@ -125,7 +125,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .cs-item-c{font-size:10px;color:var(--tl);margin-top:2px}
 .cs-item-p{font-size:13.5px;font-weight:700;color:var(--p);white-space:nowrap}
 .cs-item-q{display:flex;align-items:center;gap:6px}
-.qb{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--pl);background:var(--w);cursor:pointer;font-size:16px;font-weight:600;color:var(--p);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.qb{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--pl);background:var(--w);cursor:pointer;font-size:16px;font-weight:600;color:var(--p);display:flex;align-items:center;justify-content:center;transition:var(--tr)}
 .qb:active{background:var(--pp);transform:scale(.9)}
 .qn{font-size:14px;font-weight:700;min-width:18px;text-align:center}
 .cs-item-r{background:none;border:none;color:var(--tl);cursor:pointer;font-size:17px;padding:4px;transition:color .2s}
@@ -133,7 +133,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .cs-bot{padding:18px 20px;border-top:1px solid var(--pp);flex-shrink:0;background:var(--w)}
 .cs-tot{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:15px;font-weight:700}
 .cs-tot .ta{font-size:22px;color:var(--p)}
-.wa-btn{width:100%;padding:15px;border:none;border-radius:14px;background:var(--wa);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
+.wa-btn{width:100%;padding:15px;border:none;border-radius:14px;background:var(--wa);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:var(--tr)}
 .wa-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .wa-btn:active{transform:scale(.98)}
 .cl-btn{width:100%;padding:10px;border:none;border-radius:10px;background:var(--erl);color:var(--er);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:10px;transition:background .2s}
@@ -157,35 +157,39 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 @keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
 /* ===== ADMIN APP ===== */
-.admin-app{display:none;min-height:100vh}
+.admin-app{display:none;min-height:100vh;background:var(--bg)}
 .admin-app.v{display:block}
 
 /* Admin Login */
 .adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--p),var(--pd));padding:20px}
-.login-card{background:var(--w);border-radius:24px;padding:40px 28px;width:100%;max-width:370px;box-shadow:var(--shl);text-align:center}
+.login-card{background:var(--w);border-radius:24px;padding:40px 28px;width:100%;max-width:380px;box-shadow:var(--shl);text-align:center}
 .login-card .logo-area{margin-bottom:28px}
 .login-card h2{font-size:22px;font-weight:700;color:var(--pd);margin-bottom:6px}
 .login-card .login-sub{font-size:13px;color:var(--tl);margin-bottom:28px}
 .login-error{background:var(--erl);color:var(--er);padding:10px 14px;border-radius:10px;font-size:12px;margin-bottom:18px;display:none}
 
-/* Form */
+/* Form Elements */
 .fg{margin-bottom:16px;text-align:left}
 .fg label{display:block;font-size:11px;font-weight:700;color:var(--tm);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:14px;color:var(--td);transition:all .2s;background:var(--ppu);-webkit-appearance:none}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:14px;color:var(--td);transition:var(--tr);background:var(--ppu);-webkit-appearance:none}
 .fg input:focus,.fg select:focus{outline:none;border-color:var(--p);background:var(--w);box-shadow:0 0 0 3px rgba(186,107,130,.15)}
 
-.btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn{padding:12px 20px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn:active{transform:scale(.97)}
 .btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}
-.btn-p:active{transform:scale(.98)}
 .btn-s{background:none;border:2px solid var(--pp);color:var(--tm)}.btn-s:hover{border-color:var(--p);color:var(--p)}
 .btn-d{background:var(--er);color:#fff}.btn-d:hover{filter:brightness(1.1)}
+.btn-w{background:var(--wa);color:#fff}.btn-w:hover{filter:brightness(1.08)}
+.btn-bl{background:var(--bl);color:#fff}.btn-bl:hover{filter:brightness(1.1)}
+.btn-sm{padding:8px 14px;font-size:12px;border-radius:9px}
+.btn-full{width:100%}
 
 /* Admin Dashboard */
-.adm-dash{display:none}.adm-dash.v{display:block}
+.adm-dash{display:none;min-height:100vh}.adm-dash.v{display:block}
 .adh{background:var(--w);border-bottom:1px solid var(--pp);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .adh-r{display:flex;align-items:center;gap:12px}
 .ub{font-size:11px;color:var(--tm);font-weight:600}
-.alb{padding:6px 14px;border:2px solid var(--pp);border-radius:8px;background:none;font-family:inherit;font-size:11px;font-weight:700;color:var(--tm);cursor:pointer;transition:all .2s}
+.alb{padding:6px 14px;border:2px solid var(--pp);border-radius:8px;background:none;font-family:inherit;font-size:11px;font-weight:700;color:var(--tm);cursor:pointer;transition:var(--tr)}
 .alb:hover{border-color:var(--er);color:var(--er)}
 
 .atn{background:var(--w);border-bottom:1px solid var(--pp);overflow-x:auto}.atn::-webkit-scrollbar{display:none}
@@ -204,7 +208,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 
 /* Admin Product List */
 .apl{display:flex;flex-direction:column;gap:6px}
-.api{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--ppu);border:1px solid transparent;transition:all .2s}
+.api{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--ppu);border:1px solid transparent;transition:var(--tr)}
 .api:hover{border-color:var(--pl);background:var(--pp)}
 .api-img{width:44px;height:44px;border-radius:10px;object-fit:cover;background:var(--pl);flex-shrink:0}
 .api-ph{width:44px;height:44px;border-radius:10px;background:var(--pp);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
@@ -213,19 +217,20 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .api-c{font-size:10px;color:var(--tl);margin-top:2px}
 .api-pr{font-size:14px;font-weight:700;color:var(--p);white-space:nowrap;margin-right:8px}
 .api-act{display:flex;gap:5px;flex-shrink:0}
-.ab{width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ab{width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
 .ab.ei{background:var(--pp);color:var(--p)}.ab.ei:hover{background:var(--p);color:#fff}
 .ab.di{background:var(--erl);color:var(--er)}.ab.di:hover{background:var(--er);color:#fff}
-.ab.ii{background:#E3F2FD;color:#1565C0}.ab.ii:hover{background:#1565C0;color:#fff}
+.ab.ii{background:#E3F2FD;color:var(--bl)}.ab.ii:hover{background:var(--bl);color:#fff}
+.ab.fe{background:var(--orl);color:var(--or)}.ab.fe:hover{background:var(--or);color:#fff}
 
 /* Search */
 .sr{position:relative;margin-bottom:14px}
 .sr::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
-.sb2{width:100%;padding:10px 14px 10px 38px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:13px;background:var(--ppu);transition:all .2s}
+.sb2{width:100%;padding:10px 14px 10px 38px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:13px;background:var(--ppu);transition:var(--tr)}
 .sb2:focus{outline:none;border-color:var(--p);background:var(--w);box-shadow:0 0 0 3px rgba(186,107,130,.15)}
 
 /* Upload Area */
-.ua{border:2px dashed var(--pl);border-radius:14px;padding:32px 16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--ppu)}
+.ua{border:2px dashed var(--pl);border-radius:14px;padding:32px 16px;text-align:center;cursor:pointer;transition:var(--tr);background:var(--ppu)}
 .ua:hover{border-color:var(--p);background:var(--pp)}
 .ua .ui2{font-size:36px;margin-bottom:8px;opacity:.5}
 .ua p{font-size:14px;color:var(--tm);margin-bottom:2px}
@@ -245,11 +250,11 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 /* Image Modal */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
 .mo.o{display:flex}
-.mc{background:var(--w);border-radius:20px;padding:24px;width:100%;max-width:420px;box-shadow:var(--shl)}
+.mc{background:var(--w);border-radius:20px;padding:24px;width:100%;max-width:420px;box-shadow:var(--shl);max-height:90vh;overflow-y:auto}
 .mc h3{font-size:19px;font-weight:700;margin-bottom:16px;color:var(--pd)}
 .mpr{width:100%;height:200px;border-radius:12px;background:var(--pp);margin-bottom:16px;display:none;object-fit:cover}
 .mpr.v{display:block}
-.fiw{border:2px dashed var(--pl);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:16px}
+.fiw{border:2px dashed var(--pl);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:var(--tr);margin-bottom:16px}
 .fiw:hover{border-color:var(--p);background:var(--ppu)}
 .fa{display:flex;gap:8px;margin-top:18px}
 .fa .btn{flex:1}
@@ -258,11 +263,34 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:500px){.frow{grid-template-columns:1fr}}
 
+/* Category Manager */
+.cat-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.cat-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:var(--ppu);border:1px solid transparent;transition:var(--tr)}
+.cat-item:hover{border-color:var(--pl)}
+.cat-icon{font-size:20px;width:32px;text-align:center;flex-shrink:0}
+.cat-name{font-size:14px;font-weight:600;flex:1}
+.cat-count{font-size:11px;color:var(--tl);margin-right:8px}
+.cat-act{display:flex;gap:4px}
+
+/* Export Code */
+.export-area{background:var(--ppu);border:1px solid var(--pp);border-radius:12px;padding:16px;margin-top:14px;position:relative}
+.export-area textarea{width:100%;min-height:200px;border:none;background:transparent;font-family:'Courier New',monospace;font-size:11px;color:var(--td);resize:vertical;outline:none}
+.export-area .copy-btn{position:absolute;top:8px;right:8px}
+
+/* Confirm Dialog */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;display:none;align-items:center;justify-content:center;padding:16px}
+.confirm-overlay.o{display:flex}
+.confirm-box{background:var(--w);border-radius:20px;padding:28px;width:100%;max-width:360px;box-shadow:var(--shl);text-align:center}
+.confirm-box h4{font-size:18px;margin-bottom:8px;color:var(--pd)}
+.confirm-box p{font-size:13px;color:var(--tm);margin-bottom:20px}
+.confirm-actions{display:flex;gap:10px}
+.confirm-actions .btn{flex:1}
+
 /* Responsive */
 @media(max-width:600px){
   .hdr-in{padding:10px 12px}
   .cart-btn .clabel{display:none}
-  .hero{padding:32px 14px 26px}.hero h1{font-size:24px}
+  .hero{padding:36px 14px 28px}.hero h1{font-size:24px}
   .mn{padding:12px}
   .sh{padding:16px 14px}
   .ss{padding:14px}
@@ -271,6 +299,8 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
   .br{flex-direction:column;align-items:stretch}
   .br label{min-width:auto}
   .br input{width:100%}
+  .api{flex-wrap:wrap}
+  .api-act{width:100%;justify-content:flex-end;margin-top:4px}
 }
 
 /* Scrollbar */
@@ -278,6 +308,22 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--pl);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--p)}
+
+/* Empty state */
+.empty-state{text-align:center;padding:40px 20px;color:var(--tl)}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
+.empty-state p{font-size:14px;margin-bottom:4px}
+.empty-state small{font-size:12px}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px}
+.stat-card{background:var(--ppu);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--pp)}
+.stat-card .stat-num{font-size:28px;font-weight:800;color:var(--p)}
+.stat-card .stat-label{font-size:11px;color:var(--tl);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* Subcat tags */
+.subcat-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.subcat-tag{background:var(--pp);color:var(--pd);padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600}
 </style>
 </head>
 <body>
@@ -317,12 +363,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
     <p>Body Splashes, Cremas y Gloss importados directo a vos</p>
   </section>
 
-  <nav class="cnav"><div class="cnav-in">
-    <button class="nb act" onclick="showSec('splashes')">💖 Splashes</button>
-    <button class="nb" onclick="showSec('cremas')">🧴 Cremas</button>
-    <button class="nb" onclick="showSec('gloss')">💄 Gloss</button>
-  </div></nav>
-
+  <nav class="cnav" id="catNav"></nav>
   <main class="mn" id="mn"></main>
 
   <footer class="ftr">
@@ -348,11 +389,8 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
     </div>
   </div>
   <div class="cs-bot" id="cb" style="display:none">
-    <div class="cs-tot">
-      <span>Total</span>
-      <span class="ta" id="cta">$0</span>
-    </div>
-    <button class="wa-btn" id="wabtn" onclick="sendWA()">
+    <div class="cs-tot"><span>Total</span><span class="ta" id="cta">$0</span></div>
+    <button class="wa-btn" onclick="sendWA()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Enviar pedido por WhatsApp
     </button>
@@ -371,20 +409,32 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 <!-- TOAST -->
 <div class="tc" id="tc"></div>
 
-<!-- ===== IMAGE UPLOAD MODAL ===== -->
+<!-- ===== IMAGE MODAL ===== -->
 <div class="mo" id="imgModal">
   <div class="mc">
     <h3>📷 Subir Imagen del Producto</h3>
     <img id="modalImgPreview" class="mpr" alt="Preview">
     <div class="fiw" onclick="document.getElementById('modalImgInput').click()">
-      <p style="font-size:24px;margin-bottom:4px">📸</p>
+      <p style="font-size:28px;margin-bottom:4px">📸</p>
       <p style="font-size:13px;color:var(--tm);font-weight:600">Tocá para elegir una imagen</p>
-      <small style="color:var(--tl)">JPG, PNG — se guarda en el navegador</small>
+      <small style="color:var(--tl)">JPG, PNG — se guarda en base64</small>
     </div>
     <input type="file" id="modalImgInput" accept="image/*" style="display:none" onchange="handleModalImg(this)">
     <div class="fa">
-      <button class="btn btn-p" onclick="saveModalImg()">💾 Guardar Imagen</button>
+      <button class="btn btn-p" onclick="saveModalImg()">💾 Guardar</button>
       <button class="btn btn-s" onclick="closeImgModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRM DIALOG ===== -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h4 id="confirmTitle">¿Estás seguro?</h4>
+    <p id="confirmMsg">Esta acción no se puede deshacer.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-s" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-d" id="confirmOk">Confirmar</button>
     </div>
   </div>
 </div>
@@ -398,7 +448,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
       <div class="logo-area">
         <div class="logo-wrap" style="justify-content:center;margin-bottom:8px">
           <div class="logo-palm">
-            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:40px">
               <path d="M20 2C16 8 6 10 2 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
               <path d="M20 2C24 8 34 10 38 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
               <path d="M20 2C18 10 8 14 4 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
@@ -410,21 +460,15 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
               <rect x="18.5" y="8" width="3" height="26" rx="1.5" fill="#BA6B82"/>
             </svg>
           </div>
-          <span class="logo-text" style="font-size:24px">palmimport</span>
+          <span class="logo-text" style="font-size:26px">palmimport</span>
         </div>
       </div>
       <h2>Panel de Administración</h2>
-      <p class="login-sub">Gestioná productos, precios e imágenes</p>
+      <p class="login-sub">Gestioná tu tienda de forma profesional</p>
       <div class="login-error" id="loginError">❌ Usuario o contraseña incorrectos</div>
-      <div class="fg">
-        <label>Usuario</label>
-        <input type="text" id="loginUser" placeholder="Ingresá tu usuario" autocomplete="username">
-      </div>
-      <div class="fg">
-        <label>Contraseña</label>
-        <input type="password" id="loginPass" placeholder="Ingresá tu contraseña" autocomplete="current-password">
-      </div>
-      <button class="btn btn-p" onclick="doLogin()">🔓 Ingresar al Panel</button>
+      <div class="fg"><label>Usuario</label><input type="text" id="loginUser" placeholder="Ingresá tu usuario" autocomplete="username"></div>
+      <div class="fg"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Ingresá tu contraseña" autocomplete="current-password"></div>
+      <button class="btn btn-p btn-full" onclick="doLogin()">🔓 Ingresar</button>
     </div>
   </div>
 
@@ -432,8 +476,8 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
   <div class="adm-dash" id="admDash">
     <div class="adh">
       <div class="logo-wrap">
-        <div class="logo-palm">
-          <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:28px">
+        <div class="logo-palm" style="width:20px;height:26px">
+          <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
             <path d="M20 2C16 8 6 10 2 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
             <path d="M20 2C24 8 34 10 38 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
             <path d="M20 2C18 10 8 14 4 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
@@ -445,7 +489,7 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
             <rect x="18.5" y="8" width="3" height="26" rx="1.5" fill="#BA6B82"/>
           </svg>
         </div>
-        <span class="logo-text" style="font-size:16px">palmimport</span>
+        <span class="logo-text" style="font-size:15px">palmimport</span>
       </div>
       <div class="adh-r">
         <span class="ub">👤 lucapalm</span>
@@ -454,64 +498,86 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
     </div>
 
     <nav class="atn"><div class="atn-in">
-      <button class="at act" onclick="showATab('products')">📦 Productos</button>
-      <button class="at" onclick="showATab('add')">➕ Agregar / Editar</button>
+      <button class="at act" onclick="showATab('dashboard')">📊 Dashboard</button>
+      <button class="at" onclick="showATab('products')">📦 Productos</button>
+      <button class="at" onclick="showATab('categories')">🏷️ Categorías</button>
+      <button class="at" onclick="showATab('add')">➕ Agregar</button>
       <button class="at" onclick="showATab('supplier')">📋 Proveedor</button>
-      <button class="at" onclick="showATab('prices')">💰 Precios Masivos</button>
+      <button class="at" onclick="showATab('prices')">💰 Precios</button>
+      <button class="at" onclick="showATab('export')">📥 Exportar</button>
     </div></nav>
 
     <div class="amn">
 
-      <!-- TAB: PRODUCTS LIST -->
-      <div class="as v" id="tabProducts">
+      <!-- DASHBOARD -->
+      <div class="as v" id="tabDashboard">
+        <div class="ac">
+          <h3>📊 Resumen de tu Tienda</h3>
+          <p class="as2">Vista general de tu catálogo PalmImport</p>
+          <div class="stats-row" id="statsRow"></div>
+        </div>
+        <div class="ac">
+          <h3>⚡ Accesos Rápidos</h3>
+          <p class="as2">Gestioná tu tienda de forma eficiente</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+            <button class="btn btn-p" onclick="showATab('add')">➕ Nuevo Producto</button>
+            <button class="btn btn-bl" onclick="showATab('supplier')">📋 Importar Proveedor</button>
+            <button class="btn btn-w" onclick="showATab('prices')">💰 Actualizar Precios</button>
+            <button class="btn btn-s" onclick="showATab('export')">📥 Exportar Código</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS LIST -->
+      <div class="as" id="tabProducts">
         <div class="ac">
           <h3>📦 Todos los Productos</h3>
-          <p class="as2">Editá, eliminá o subí imágenes a tus productos</p>
-          <div class="sr">
-            <input type="text" class="sb2" placeholder="Buscar producto por nombre..." id="adminSearch" oninput="renderAdminList()">
+          <p class="as2">Editá, eliminá o subí imágenes. Clic en un producto para editarlo rápido.</p>
+          <div class="sr"><input type="text" class="sb2" placeholder="Buscar producto por nombre..." id="adminSearch" oninput="renderAdminList()"></div>
+          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+            <select id="filterCat" onchange="renderAdminList()" style="padding:8px 12px;border:2px solid var(--pp);border-radius:8px;font-family:inherit;font-size:12px;background:var(--ppu)">
+              <option value="all">📂 Todas las categorías</option>
+            </select>
           </div>
           <div class="apl" id="adminProdList"></div>
         </div>
       </div>
 
-      <!-- TAB: ADD / EDIT PRODUCT -->
+      <!-- CATEGORIES -->
+      <div class="as" id="tabCategories">
+        <div class="ac">
+          <h3>🏷️ Gestión de Categorías</h3>
+          <p class="as2">Agregá, editá o eliminá categorías y sub-categorías de tu tienda</p>
+          <div id="catManager"></div>
+          <div style="margin-top:20px;border-top:1px solid var(--pp);padding-top:18px">
+            <h4 style="font-size:16px;color:var(--pd);margin-bottom:12px">➕ Agregar Nueva Categoría</h4>
+            <div class="frow">
+              <div class="fg"><label>Nombre de la categoría</label><input type="text" id="newCatName" placeholder="Ej: Perfumes"></div>
+              <div class="fg"><label>Icono (emoji)</label><input type="text" id="newCatIcon" placeholder="🌸" maxlength="4"></div>
+            </div>
+            <div class="fg"><label>Sub-categorías (separadas por coma)</label><input type="text" id="newCatSubs" placeholder="Ej: Clásico, Shimmer, Edición Limitada"></div>
+            <button class="btn btn-p" onclick="addCategory()">✅ Agregar Categoría</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD / EDIT PRODUCT -->
       <div class="as" id="tabAdd">
         <div class="ac">
           <h3 id="formTitle">➕ Agregar Nuevo Producto</h3>
           <p class="as2">Completá los datos del producto</p>
           <div class="frow">
-            <div class="fg">
-              <label>Nombre del producto</label>
-              <input type="text" id="prodName" placeholder="Ej: Bare Vanilla">
-            </div>
-            <div class="fg">
-              <label>Categoría principal</label>
-              <select id="prodCat">
-                <option value="splashes">💖 Body Splash</option>
-                <option value="cremas">🧴 Crema</option>
-                <option value="gloss">💄 Gloss</option>
-              </select>
-            </div>
+            <div class="fg"><label>Nombre del producto *</label><input type="text" id="prodName" placeholder="Ej: Bare Vanilla"></div>
+            <div class="fg"><label>Categoría principal *</label><select id="prodCat"></select></div>
           </div>
           <div class="frow">
-            <div class="fg">
-              <label>Sub-categoría</label>
-              <select id="prodSub">
-                <option value="classic">Clásico/a</option>
-                <option value="shimmer">Shimmer</option>
-                <option value="limited">Edición Limitada</option>
-                <option value="vacation">Edición Vacation</option>
-              </select>
-            </div>
-            <div class="fg">
-              <label>Precio ($)</label>
-              <input type="number" id="prodPrice" placeholder="38000">
-            </div>
+            <div class="fg"><label>Sub-categoría *</label><select id="prodSub"></select></div>
+            <div class="fg"><label>Precio ($) *</label><input type="number" id="prodPrice" placeholder="38000"></div>
           </div>
           <div class="fg">
             <label>Imagen del producto</label>
-            <div class="fiw" onclick="document.getElementById('formImgInput').click()" id="formImgArea">
-              <p style="font-size:24px;margin-bottom:4px">📸</p>
+            <div class="fiw" onclick="document.getElementById('formImgInput').click()">
+              <p style="font-size:28px;margin-bottom:4px">📸</p>
               <p style="font-size:13px;color:var(--tm);font-weight:600">Tocá para subir imagen</p>
               <small style="color:var(--tl)">JPG, PNG — opcional</small>
             </div>
@@ -519,21 +585,21 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
             <input type="file" id="formImgInput" accept="image/*" style="display:none" onchange="previewFormImg(this)">
           </div>
           <input type="hidden" id="editProdId" value="">
-          <div style="margin-top:20px;display:flex;gap:10px">
+          <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn btn-p" style="flex:1" onclick="saveProduct()">💾 Guardar Producto</button>
-            <button class="btn btn-s" style="flex:0 0 auto" onclick="resetForm()">↩️ Limpiar</button>
+            <button class="btn btn-s" onclick="resetForm()">↩️ Limpiar</button>
           </div>
         </div>
       </div>
 
-      <!-- TAB: SUPPLIER UPLOAD -->
+      <!-- SUPPLIER -->
       <div class="as" id="tabSupplier">
         <div class="ac">
-          <h3>📋 Cargar Lista del Proveedor</h3>
-          <p class="as2">Subí un archivo .txt o .csv con los productos. El sistema extraerá automáticamente nombre y precio.</p>
-          <p style="font-size:11px;color:var(--tl);margin-bottom:14px;background:var(--ppu);padding:10px 14px;border-radius:8px">
-            📝 <strong>Formato esperado:</strong> Una línea por producto con formato <code style="background:var(--pp);padding:2px 6px;border-radius:4px">"Nombre del producto, precio"</code> separado por comas, tabulaciones o punto y coma.
-          </p>
+          <h3>📋 Importar desde Proveedor</h3>
+          <p class="as2">Subí un archivo .txt o .csv. El sistema extraerá automáticamente nombre y precio.</p>
+          <div style="background:var(--ppu);padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:12px;color:var(--tm)">
+            📝 <strong>Formato esperado:</strong> Una línea por producto: <code style="background:var(--pp);padding:2px 6px;border-radius:4px">Nombre, Precio</code> (separados por coma, tab o punto y coma)
+          </div>
           <div class="ua" onclick="document.getElementById('supplierFile').click()">
             <div class="ui2">📄</div>
             <p>Click para seleccionar archivo</p>
@@ -542,59 +608,46 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
           <input type="file" id="supplierFile" accept=".txt,.csv,.tsv" style="display:none" onchange="parseSupplierFile(this)">
           <div id="parsedProducts" style="margin-top:16px"></div>
           <div id="supplierActions" style="display:none;margin-top:16px;display:flex;gap:10px;align-items:center">
-            <button class="btn btn-p" style="flex:1" onclick="importSupplierProducts()">📥 Importar Productos Nuevos</button>
-            <button class="btn btn-s" style="flex:0 0 auto" onclick="clearSupplier()">Descartar</button>
+            <button class="btn btn-p" style="flex:1" onclick="importSupplierProducts()">📥 Importar Productos</button>
+            <button class="btn btn-s" onclick="clearSupplier()">Descartar</button>
           </div>
         </div>
       </div>
 
-      <!-- TAB: BULK PRICES -->
+      <!-- BULK PRICES -->
       <div class="as" id="tabPrices">
         <div class="ac">
-          <h3>💰 Actualizar Precios Masivos</h3>
-          <p class="as2">Modificá precios por categoría de forma masiva. Solo se actualizarán los productos que coincidan.</p>
-          <div class="br">
-            <label>💖 Splashes Clásicos</label>
-            <input type="number" id="bulk-sp-cl" placeholder="38000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>✨ Splashes Shimmer</label>
-            <input type="number" id="bulk-sp-sh" placeholder="40000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>🔥 Splashes Ed. Limitada</label>
-            <input type="number" id="bulk-sp-li" placeholder="40000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>🌴 Splashes Vacation</label>
-            <input type="number" id="bulk-sp-va" placeholder="40000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>🧴 Cremas Clásicas</label>
-            <input type="number" id="bulk-cr-cl" placeholder="37000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>✨ Cremas Shimmer</label>
-            <input type="number" id="bulk-cr-sh" placeholder="38000">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>💎 Cremas Ed. Limitada</label>
-            <input type="number" id="bulk-cr-li" placeholder="37500">
-            <span class="bc">ARS</span>
-          </div>
-          <div class="br">
-            <label>💄 Gloss (todos)</label>
-            <input type="number" id="bulk-gl-all" placeholder="26600">
-            <span class="bc">ARS</span>
-          </div>
+          <h3>💰 Actualización Masiva de Precios</h3>
+          <p class="as2">Modificá precios por categoría/sub-categoría de forma masiva</p>
+          <div id="bulkPriceList"></div>
           <div style="margin-top:20px">
-            <button class="btn btn-p" onclick="applyBulkPrices()">✅ Aplicar Cambios de Precios</button>
+            <button class="btn btn-p" onclick="applyBulkPrices()">✅ Aplicar Cambios</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div class="as" id="tabExport">
+        <div class="ac">
+          <h3>📥 Exportar Código Actualizado</h3>
+          <p class="as2">Copiá este código y reemplazá la variable <code style="background:var(--pp);padding:2px 6px;border-radius:4px">DEFAULT_PRODUCTS</code> en tu archivo HTML para que los cambios sean permanentes y visibles para todos tus clientes.</p>
+          <div style="background:var(--warnl);padding:14px 18px;border-radius:12px;margin-bottom:18px;font-size:12px;color:var(--or);display:flex;align-items:flex-start;gap:10px">
+            <span style="font-size:20px;flex-shrink:0">⚠️</span>
+            <div>
+              <strong>Instrucciones:</strong><br>
+              1. Copiá el código que aparece abajo<br>
+              2. Abrí tu archivo HTML en un editor de texto<br>
+              3. Buscá <code>var DEFAULT_PRODUCTS = [</code> y reemplazá todo lo que está entre <code>[ ]</code> por el código copiado<br>
+              4. Guardá el archivo y subilo de nuevo
+            </div>
+          </div>
+          <button class="btn btn-p" onclick="generateExportCode()" style="margin-bottom:14px">🔄 Generar Código Actualizado</button>
+          <div class="export-area" id="exportArea" style="display:none">
+            <button class="btn btn-bl btn-sm copy-btn" onclick="copyExportCode()">📋 Copiar</button>
+            <textarea id="exportCode" readonly></textarea>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn btn-s" onclick="downloadExportFile()">💾 Descargar archivo .js</button>
           </div>
         </div>
       </div>
@@ -604,91 +657,110 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);co
 </div>
 
 <script>
-/* ===================================================================
-   PALMIMPORT — Complete Application
-   =================================================================== */
+/* ================================================================
+   PALMIMPORT — Professional Store Manager
+   ================================================================ */
 
-// ===== DEFAULT PRODUCTS DATA =====
+// ===== DEFAULT DATA =====
+var DEFAULT_CATEGORIES = [
+  {id:'cat_splashes',name:'Body Splash',icon:'🌴',subs:[
+    {id:'classic',name:'Clásicos'},
+    {id:'shimmer',name:'Shimmer'},
+    {id:'limited',name:'Ediciones Limitadas'},
+    {id:'vacation',name:'Edición Vacation'}
+  ]},
+  {id:'cat_cremas',name:'Cremas',icon:'🧴',subs:[
+    {id:'classic',name:'Clásicas'},
+    {id:'shimmer',name:'Shimmer'},
+    {id:'limited',name:'Edición Limitada'}
+  ]},
+  {id:'cat_gloss',name:'Gloss',icon:'💄',subs:[
+    {id:'gloss',name:'Gloss'}
+  ]}
+];
+
 var DEFAULT_PRODUCTS = [
-  // SPLASHES - CLASICOS
-  {id:'s01',name:'Bare Vanilla',cat:'splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s02',name:'Velvet Petals',cat:'splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s03',name:'Pure Seduction',cat:'splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s04',name:'Love Spell',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s05',name:'Aqua Kiss',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s06',name:'Amber Romance',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s07',name:'Strawberries & Champagne',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s08',name:'Romantic',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s09',name:'Temptation',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s10',name:'Midnight Bloom',cat:'splashes',sub:'classic',price:38000,img:''},
-  {id:'s11',name:'Rush',cat:'splashes',sub:'classic',price:38000,img:''},
-  // SPLASHES - SHIMMER
-  {id:'s12',name:'Bare Vanilla Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s13',name:'Love Spell Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s14',name:'Pure Seduction Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s15',name:'Velvet Petals Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s16',name:'Coconut Passion Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s17',name:'Aqua Kiss Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s18',name:'Amber Romance Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s19',name:'Temptation Shimmer',cat:'splashes',sub:'shimmer',price:40000,img:''},
-  // SPLASHES - LIMITED
-  {id:'s20',name:'Bare Vanilla Bliss',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s21',name:'Velvet Petals Starlit',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s22',name:'Pure Seduction Starlit',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s23',name:'Pure Seduction Bliss',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s24',name:'Love Spell Starlit',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s25',name:'Love Spell Brulee',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s26',name:'Love Spell Bliss',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s27',name:'Wild Neroli',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s28',name:'Santal Berry Silk',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s29',name:'Ginger Apple',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s30',name:'Vanilla Lace',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s31',name:'Coastal Blooms',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s32',name:'Sundrenched Blooms',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s33',name:'Canyon Blooms',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s34',name:'Warm Vanilla Woods',cat:'splashes',sub:'limited',price:40000,img:''},
-  {id:'s35',name:'Golden Saffron Amber',cat:'splashes',sub:'limited',price:40000,img:''},
-  // SPLASHES - VACATION
-  {id:'s36',name:'Bare Vanilla (Vacation)',cat:'splashes',sub:'vacation',price:40000,img:''},
-  {id:'s37',name:'Love Spell (Vacation)',cat:'splashes',sub:'vacation',price:40000,img:''},
-  {id:'s38',name:'Velvet Petals (Vacation)',cat:'splashes',sub:'vacation',price:40000,img:''},
-  {id:'s39',name:'Pure Seduction (Vacation)',cat:'splashes',sub:'vacation',price:40000,img:''},
-  // CREMAS - CLASICAS
-  {id:'c01',name:'Coconut Passion',cat:'cremas',sub:'classic',price:37000,img:''},
-  {id:'c02',name:'Strawberries & Champagne',cat:'cremas',sub:'classic',price:37000,img:''},
-  {id:'c03',name:'Velvet Petals',cat:'cremas',sub:'classic',price:37000,img:''},
-  {id:'c04',name:'Amber Romance',cat:'cremas',sub:'classic',price:37000,img:''},
-  {id:'c05',name:'Aqua Kiss',cat:'cremas',sub:'classic',price:37000,img:''},
-  // CREMAS - SHIMMER
-  {id:'c06',name:'Pure Seduction Shimmer',cat:'cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c07',name:'Coconut Passion Shimmer',cat:'cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c08',name:'Midnight Bloom Shimmer',cat:'cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c09',name:'Temptation Shimmer',cat:'cremas',sub:'shimmer',price:38000,img:''},
-  // CREMAS - LIMITED
-  {id:'c10',name:'Cashmere Fleur',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c11',name:'Pear Glace (Archives)',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c12',name:'Cabana in the Sand',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c13',name:'Cheers Again',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c14',name:'Cherry Elixir N°33',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c15',name:'Island Away',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c16',name:'Moon Spiced Apple',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c17',name:'Nocturnal Magic',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c18',name:'Poolside Service',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c19',name:'Desert Sky',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c20',name:'Early Morning Sun',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c21',name:'Falling Water',cat:'cremas',sub:'limited',price:37500,img:''},
-  {id:'c22',name:'Glowing Places',cat:'cremas',sub:'limited',price:37500,img:''},
-  // GLOSS
-  {id:'g01',name:'Gloss PalmImport',cat:'gloss',sub:'gloss',price:26600,img:''},
+  {id:'s01',name:'Bare Vanilla',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
+  {id:'s02',name:'Velvet Petals',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
+  {id:'s03',name:'Pure Seduction',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
+  {id:'s04',name:'Love Spell',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s05',name:'Aqua Kiss',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s06',name:'Amber Romance',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s07',name:'Strawberries & Champagne',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s08',name:'Romantic',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s09',name:'Temptation',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s10',name:'Midnight Bloom',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s11',name:'Rush',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
+  {id:'s12',name:'Bare Vanilla Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s13',name:'Love Spell Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s14',name:'Pure Seduction Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s15',name:'Velvet Petals Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s16',name:'Coconut Passion Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s17',name:'Aqua Kiss Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s18',name:'Amber Romance Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s19',name:'Temptation Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
+  {id:'s20',name:'Bare Vanilla Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s21',name:'Velvet Petals Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s22',name:'Pure Seduction Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s23',name:'Pure Seduction Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s24',name:'Love Spell Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s25',name:'Love Spell Brulee',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s26',name:'Love Spell Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s27',name:'Wild Neroli',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s28',name:'Santal Berry Silk',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s29',name:'Ginger Apple',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s30',name:'Vanilla Lace',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s31',name:'Coastal Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s32',name:'Sundrenched Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s33',name:'Canyon Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s34',name:'Warm Vanilla Woods',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s35',name:'Golden Saffron Amber',cat:'cat_splashes',sub:'limited',price:40000,img:''},
+  {id:'s36',name:'Bare Vanilla (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
+  {id:'s37',name:'Love Spell (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
+  {id:'s38',name:'Velvet Petals (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
+  {id:'s39',name:'Pure Seduction (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
+  {id:'c01',name:'Coconut Passion',cat:'cat_cremas',sub:'classic',price:37000,img:''},
+  {id:'c02',name:'Strawberries & Champagne',cat:'cat_cremas',sub:'classic',price:37000,img:''},
+  {id:'c03',name:'Velvet Petals',cat:'cat_cremas',sub:'classic',price:37000,img:''},
+  {id:'c04',name:'Amber Romance',cat:'cat_cremas',sub:'classic',price:37000,img:''},
+  {id:'c05',name:'Aqua Kiss',cat:'cat_cremas',sub:'classic',price:37000,img:''},
+  {id:'c06',name:'Pure Seduction Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
+  {id:'c07',name:'Coconut Passion Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
+  {id:'c08',name:'Midnight Bloom Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
+  {id:'c09',name:'Temptation Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
+  {id:'c10',name:'Cashmere Fleur',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c11',name:'Pear Glace (Archives)',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c12',name:'Cabana in the Sand',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c13',name:'Cheers Again',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c14',name:'Cherry Elixir N°33',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c15',name:'Island Away',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c16',name:'Moon Spiced Apple',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c17',name:'Nocturnal Magic',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c18',name:'Poolside Service',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c19',name:'Desert Sky',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c20',name:'Early Morning Sun',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c21',name:'Falling Water',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'c22',name:'Glowing Places',cat:'cat_cremas',sub:'limited',price:37500,img:''},
+  {id:'g01',name:'Gloss PalmImport',cat:'cat_gloss',sub:'gloss',price:26600,img:''}
 ];
 
 // ===== STATE =====
+var categories = [];
 var products = [];
 var cart = [];
 var supplierParsed = [];
 var modalUploadId = null;
+var confirmCallback = null;
 
 // ===== PERSISTENCE =====
+function loadCategories() {
+  try {
+    var raw = localStorage.getItem('pi_categories');
+    if (raw) categories = JSON.parse(raw);
+    else categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+  } catch(e) { categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES)); }
+}
+
 function loadProducts() {
   try {
     var raw = localStorage.getItem('pi_products');
@@ -698,48 +770,26 @@ function loadProducts() {
     } else {
       products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
     }
-  } catch(e) {
-    products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-  }
+  } catch(e) { products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)); }
 }
 
-function saveProducts() {
-  try { localStorage.setItem('pi_products', JSON.stringify(products)); } catch(e) {}
-}
-
-function loadCart() {
-  try {
-    var raw = localStorage.getItem('pi_cart');
-    if (raw) cart = JSON.parse(raw); else cart = [];
-  } catch(e) { cart = []; }
-}
-
-function saveCart() {
-  try { localStorage.setItem('pi_cart', JSON.stringify(cart)); } catch(e) {}
-}
+function saveCategories() { try { localStorage.setItem('pi_categories', JSON.stringify(categories)); } catch(e) {} }
+function saveProducts() { try { localStorage.setItem('pi_products', JSON.stringify(products)); } catch(e) {} }
+function loadCart() { try { var r=localStorage.getItem('pi_cart'); cart=r?JSON.parse(r):[]; } catch(e) { cart=[]; } }
+function saveCart() { try { localStorage.setItem('pi_cart', JSON.stringify(cart)); } catch(e) {} }
 
 // ===== HELPERS =====
-function formatPrice(n) { return '$' + n.toLocaleString('es-AR'); }
+function fmt(n) { return '$' + n.toLocaleString('es-AR'); }
+function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
-function catLabel(c) {
-  return {splashes:'Body Splash',cremas:'Crema',gloss:'Gloss'}[c] || c;
+function getCat(catId) { return categories.find(function(c){return c.id===catId;}); }
+function getCatName(catId) { var c=getCat(catId); return c?c.name:catId; }
+function getCatIcon(catId) { var c=getCat(catId); return c?c.icon:'📦'; }
+function getSubName(catId, subId) {
+  var c=getCat(catId); if(!c) return subId;
+  var s=c.subs.find(function(x){return x.id===subId;}); return s?s.name:subId;
 }
 
-function subLabel(s) {
-  return {classic:'Clásico',shimmer:'Shimmer',limited:'Ed. Limitada',vacation:'Vacation',gloss:'Gloss'}[s] || s;
-}
-
-function priceLabel(cat, sub) {
-  var map = {
-    'splashes-classic':'$38.000','splashes-shimmer':'$40.000',
-    'splashes-limited':'$40.000','splashes-vacation':'$40.000',
-    'cremas-classic':'$37.000','cremas-shimmer':'$38.000',
-    'cremas-limited':'$37.500','gloss-gloss':'$26.600'
-  };
-  return map[cat+'-'+sub] || '';
-}
-
-// ===== TOAST =====
 function showToast(msg, type) {
   var container = document.getElementById('tc');
   var el = document.createElement('div');
@@ -747,161 +797,160 @@ function showToast(msg, type) {
   el.textContent = msg;
   container.appendChild(el);
   setTimeout(function() {
-    el.style.opacity = '0';
-    el.style.transform = 'translateX(40px)';
-    el.style.transition = 'all 0.3s ease';
-    setTimeout(function() { el.remove(); }, 300);
+    el.style.opacity='0';el.style.transform='translateX(40px)';el.style.transition='all .3s';
+    setTimeout(function(){el.remove();},300);
   }, 2500);
+}
+
+// ===== CONFIRM DIALOG =====
+function showConfirm(title, msg, cb) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmOverlay').classList.add('o');
+  confirmCallback = cb;
+  document.getElementById('confirmOk').onclick = function() {
+    closeConfirm();
+    if (confirmCallback) confirmCallback();
+  };
+}
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('o');
+  confirmCallback = null;
 }
 
 // ===== RENDER CATALOG =====
 function renderCatalog() {
-  var mn = document.getElementById('mn');
-  var splashes = products.filter(function(p) { return p.cat === 'splashes'; });
-  var cremas = products.filter(function(p) { return p.cat === 'cremas'; });
-  var glossItems = products.filter(function(p) { return p.cat === 'gloss'; });
-
-  // Featured names
-  var featured = [];
-  for (var fi = 0; fi < products.length; fi++) {
-    if (products[fi].featured && products[fi].cat === 'splashes' && products[fi].sub === 'classic') {
-      featured.push(products[fi].name);
-    }
-  }
-
-  function makeCard(p) {
-    var inCart = cart.find(function(c) { return c.id === p.id; });
-    var isFeatured = featured.indexOf(p.name) >= 0;
-    var imgHtml = '';
-    if (p.img) {
-      imgHtml = '<img class="pc-img" src="'+p.img+'" alt="">';
-    } else {
-      imgHtml = '<span class="pd"></span>';
-    }
-    return '<div class="pc ' + (inCart ? 'ic' : '') + '" data-pid="' + p.id + '">' +
-      imgHtml +
-      '<span class="pn">' + p.name + '</span>' +
-      (isFeatured ? '<span class="pf">🔥</span>' : '') +
-      '<button class="add-btn" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')">' + (inCart ? '✓' : '+') + '</button>' +
-      '</div>';
-  }
-
-  function makeSubSection(subKey, items, icon, label) {
-    if (!items.length) return '';
-    var cards = '';
-    for (var i = 0; i < items.length; i++) {
-      cards += makeCard(items[i]);
-    }
-    return '<div class="ss">' +
-      '<div class="ss-h">' +
-      '<div class="ss-i ' + icon + '">' + icon.replace('cl','').replace('sh','').replace('li','').replace('va','') + '</div>' +
-      '<span class="ss-t">' + label + '</span>' +
-      '<span class="ss-p">' + priceLabel('splashes', subKey) + '</span>' +
-      '</div>' +
-      '<div class="pg">' + cards + '</div>' +
-      '</div>';
-  }
-
-  function makeSubSectionCrema(subKey, items, icon, label) {
-    if (!items.length) return '';
-    var cards = '';
-    for (var i = 0; i < items.length; i++) {
-      cards += makeCard(items[i]);
-    }
-    return '<div class="ss">' +
-      '<div class="ss-h">' +
-      '<div class="ss-i ' + icon + '">' + '</div>' +
-      '<span class="ss-t">' + label + '</span>' +
-      '<span class="ss-p">' + priceLabel('cremas', subKey) + '</span>' +
-      '</div>' +
-      '<div class="pg">' + cards + '</div>' +
-      '</div>';
-  }
-
-  // SPLASHES HTML
-  var splHTML = '<div class="sh">' +
-    '<h2>🌴 Body Splashes</h2>' +
-    '<p class="sub">Venta por pedido · Entrega en Mar del Plata</p>' +
-    '<div class="pr-row">' +
-    '<span class="pr-c cl">💖 Clásicos: $38.000</span>' +
-    '<span class="pr-c sh">✨ Shimmer: $40.000</span>' +
-    '<span class="pr-c li">🔥 Ed. Limitadas: $40.000</span>' +
-    '<span class="pr-c va">🌴 Vacation: $40.000</span>' +
-    '</div></div>';
-
-  var subDefs = [
-    {key:'classic', icon:'cl', label:'Clásicos'},
-    {key:'shimmer', icon:'sh', label:'Shimmer'},
-    {key:'limited', icon:'li', label:'Ediciones Limitadas'},
-    {key:'vacation', icon:'va', label:'Edición Vacation'}
-  ];
-
-  for (var sd = 0; sd < subDefs.length; sd++) {
-    var sItems = splashes.filter(function(p) { return p.sub === subDefs[sd].key; });
-    splHTML += makeSubSection(subDefs[sd].key, sItems, subDefs[sd].icon, subDefs[sd].label);
-  }
-
-  splHTML += '<div class="sf">' +
-    '<span class="sb cl2">⏳ Estoy cerrando pedido</span>' +
-    '<span style="font-size:11px;color:var(--tl)">💬 Si no sabés cuál elegir, te recomiendo los más pedidos 🙌</span>' +
-    '</div>';
-
-  // CREMAS HTML
-  var creHTML = '<div class="sh">' +
-    '<h2>🧴 Cremas</h2>' +
-    '<p class="sub">Venta por pedido · Entrega en Mar del Plata</p>' +
-    '<div class="pr-row">' +
-    '<span class="pr-c cl">💖 Clásicas: $37.000</span>' +
-    '<span class="pr-c sh">✨ Shimmer: $38.000</span>' +
-    '<span class="pr-c li">💎 Ed. Limitada: $37.500</span>' +
-    '</div></div>';
-
-  var creDefs = [
-    {key:'classic', label:'Clásicas'},
-    {key:'shimmer', label:'Shimmer'},
-    {key:'limited', label:'Edición Limitada'}
-  ];
-
-  for (var cd = 0; cd < creDefs.length; cd++) {
-    var cItems = cremas.filter(function(p) { return p.sub === creDefs[cd].key; });
-    creHTML += makeSubSectionCrema(creDefs[cd].key, cItems, '', creDefs[cd].label);
-  }
-
-  creHTML += '<div class="sf">' +
-    '<span class="sb op">🛍️ Pedido abierto</span>' +
-    '<span style="font-size:11px;color:var(--tl)">💬 Consultá por fragancias disponibles 🙌</span>' +
-    '</div>';
-
-  // GLOSS HTML
-  var glHTML = '<div class="gs">' +
-    '<span class="gb">🔥 Oferta</span>' +
-    '<h2>💄 Gloss</h2>' +
-    '<p>Variedad disponible · Ideal para sumar al pedido o regalar</p>' +
-    '<div class="gp">$26.600</div>' +
-    '<div class="gpo">En Mar del Plata hasta $32.500</div>' +
-    '<p style="font-size:12px;opacity:.7;margin-top:6px">✨ Escribime y te paso opciones disponibles</p>' +
-    '</div>';
-
-  glHTML += '<div class="ss">' +
-    '<div class="ss-h">' +
-    '<span class="ss-t">💄 Gloss Disponibles</span>' +
-    '<span class="ss-p">$26.600</span>' +
-    '</div>' +
-    '<div class="pg">';
-  for (var gi = 0; gi < glossItems.length; gi++) {
-    glHTML += makeCard(glossItems[gi]);
-  }
-  glHTML += '</div></div>';
-
-  glHTML += '<div class="sf" style="justify-content:center"><span class="sb ls">⏳ Stock limitado</span></div>';
-
-  mn.innerHTML =
-    '<div id="sec-splashes" class="sec v">' + splHTML + '</div>' +
-    '<div id="sec-cremas" class="sec">' + creHTML + '</div>' +
-    '<div id="sec-gloss" class="sec">' + glHTML + '</div>';
+  renderCatNav();
+  renderSections();
 }
 
-// ===== SECTION NAV =====
+function renderCatNav() {
+  var nav = document.getElementById('catNav');
+  var html = '<div class="cnav-in">';
+  html += '<button class="nb act" onclick="showSec(\'all\')">🏪 Todo</button>';
+  for (var i = 0; i < categories.length; i++) {
+    html += '<button class="nb" onclick="showSec(\'' + categories[i].id + '\')">' + categories[i].icon + ' ' + categories[i].name + '</button>';
+  }
+  html += '</div>';
+  nav.innerHTML = html;
+}
+
+function renderSections() {
+  var mn = document.getElementById('mn');
+  var html = '';
+
+  // ALL section
+  html += '<div id="sec-all" class="sec v">';
+  for (var ci = 0; ci < categories.length; ci++) {
+    var cat = categories[ci];
+    var catProducts = products.filter(function(p) { return p.cat === cat.id; });
+    if (!catProducts.length) continue;
+
+    html += '<div class="sh" style="margin-bottom:14px">';
+    html += '<h2>' + cat.icon + ' ' + cat.name + '</h2>';
+    html += '<p class="sub">' + catProducts.length + ' producto' + (catProducts.length !== 1 ? 's' : '') + '</p>';
+    html += '</div>';
+
+    for (var si = 0; si < cat.subs.length; si++) {
+      var sub = cat.subs[si];
+      var subProducts = catProducts.filter(function(p) { return p.sub === sub.id; });
+      if (!subProducts.length) continue;
+
+      var featured = products.filter(function(p) { return p.featured && p.cat === cat.id && p.sub === sub.id; }).map(function(p) { return p.name; });
+
+      html += '<div class="ss">';
+      html += '<div class="ss-h"><div class="ss-i cl"></div><span class="ss-t">' + sub.name + '</span>';
+
+      // Find a price example
+      if (subProducts.length) {
+        html += '<span class="ss-p">Desde ' + fmt(subProducts[0].price) + '</span>';
+      }
+
+      html += '</div><div class="pg">';
+
+      for (var pi = 0; pi < subProducts.length; pi++) {
+        var p = subProducts[pi];
+        var inCart = cart.find(function(c) { return c.id === p.id; });
+        var isFeatured = featured.indexOf(p.name) >= 0;
+        var imgHtml = p.img ? '<img class="pc-img" src="' + p.img + '" alt="">' : '<span class="pd"></span>';
+
+        html += '<div class="pc ' + (inCart ? 'ic' : '') + '" data-pid="' + p.id + '">' +
+          imgHtml +
+          '<span class="pn">' + p.name + '</span>' +
+          (isFeatured ? '<span class="pf">🔥</span>' : '') +
+          '<button class="add-btn" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')">' + (inCart ? '✓' : '+') + '</button>' +
+          '</div>';
+      }
+
+      html += '</div></div>';
+    }
+
+    // Status footer
+    if (cat.id === 'cat_splashes') {
+      html += '<div class="sf"><span class="sb cl2">⏳ Cerrando pedido</span><span style="font-size:11px;color:var(--tl)">💬 Los más pedidos te los recomiendo 🙌</span></div>';
+    } else if (cat.id === 'cat_cremas') {
+      html += '<div class="sf"><span class="sb op">🛍️ Pedido abierto</span><span style="font-size:11px;color:var(--tl)">💬 Consultá disponibilidad 🙌</span></div>';
+    } else if (cat.id === 'cat_gloss') {
+      html += '<div class="sf" style="justify-content:center"><span class="sb ls">⏳ Stock limitado</span></div>';
+    }
+  }
+  html += '</div>';
+
+  // Individual category sections
+  for (var ci2 = 0; ci2 < categories.length; ci2++) {
+    var cat2 = categories[ci2];
+    var secId = 'sec-' + cat2.id;
+    var catProds = products.filter(function(p) { return p.cat === cat2.id; });
+
+    html += '<div id="' + secId + '" class="sec">';
+
+    // Category header
+    html += '<div class="sh">';
+    html += '<h2>' + cat2.icon + ' ' + cat2.name + '</h2>';
+    html += '<p class="sub">' + catProds.length + ' producto' + (catProds.length !== 1 ? 's' : '') + '</p>';
+    html += '</div>';
+
+    for (var si2 = 0; si2 < cat2.subs.length; si2++) {
+      var sub2 = cat2.subs[si2];
+      var subProds2 = catProds.filter(function(p) { return p.sub === sub2.id; });
+      if (!subProds2.length) continue;
+
+      var feat2 = products.filter(function(p) { return p.featured && p.cat === cat2.id && p.sub === sub2.id; }).map(function(p) { return p.name; });
+
+      html += '<div class="ss">';
+      html += '<div class="ss-h"><div class="ss-i cl"></div><span class="ss-t">' + sub2.name + '</span>';
+      if (subProds2.length) html += '<span class="ss-p">Desde ' + fmt(subProds2[0].price) + '</span>';
+      html += '</div><div class="pg">';
+
+      for (var pj = 0; pj < subProds2.length; pj++) {
+        var prod2 = subProds2[pj];
+        var inCart2 = cart.find(function(c) { return c.id === prod2.id; });
+        var isFeat2 = feat2.indexOf(prod2.name) >= 0;
+        var imgHtml2 = prod2.img ? '<img class="pc-img" src="' + prod2.img + '" alt="">' : '<span class="pd"></span>';
+
+        html += '<div class="pc ' + (inCart2 ? 'ic' : '') + '">' +
+          imgHtml2 +
+          '<span class="pn">' + prod2.name + '</span>' +
+          (isFeat2 ? '<span class="pf">🔥</span>' : '') +
+          '<button class="add-btn" onclick="event.stopPropagation();addToCart(\'' + prod2.id + '\')">' + (inCart2 ? '✓' : '+') + '</button>' +
+          '</div>';
+      }
+
+      html += '</div></div>';
+    }
+
+    // Gloss special
+    if (cat2.id === 'cat_gloss') {
+      html = html.replace('<div class="sh">', '<div class="gs"><span class="gb">🔥 Oferta</span><h2>💄 Gloss</h2><p>Variedad disponible · Ideal para sumar al pedido o regalar</p><div class="gp">$26.600</div><div class="gpo">En MDP hasta $32.500</div><p style="font-size:12px;opacity:.7;margin-top:6px">✨ Escribime y te paso opciones disponibles</p></div><div class="sh">');
+    }
+
+    html += '</div>';
+  }
+
+  mn.innerHTML = html;
+}
+
 function showSec(id) {
   var secs = document.querySelectorAll('.sec');
   for (var i = 0; i < secs.length; i++) secs[i].classList.remove('v');
@@ -911,24 +960,26 @@ function showSec(id) {
   var el = document.getElementById('sec-' + id);
   if (el) el.classList.add('v');
 
-  var map = ['splashes','cremas','gloss'];
-  var idx = map.indexOf(id);
-  if (btns[idx]) btns[idx].classList.add('act');
+  var allBtns = document.querySelectorAll('.nb');
+  if (id === 'all' && allBtns[0]) allBtns[0].classList.add('act');
+
+  var catIdx = -1;
+  for (var c = 0; c < categories.length; c++) {
+    if (categories[c].id === id) { catIdx = c + 1; break; }
+  }
+  if (catIdx >= 0 && allBtns[catIdx]) allBtns[catIdx].classList.add('act');
 
   window.scrollTo({top: 180, behavior: 'smooth'});
 }
 
-// ===== CART FUNCTIONS =====
+// ===== CART =====
 function addToCart(productId) {
   var existing = cart.find(function(c) { return c.id === productId; });
-  if (existing) {
-    existing.qty++;
-  } else {
-    cart.push({id: productId, qty: 1});
-  }
+  if (existing) { existing.qty++; }
+  else { cart.push({id: productId, qty: 1}); }
   saveCart();
   updateCartUI();
-  renderCatalog();
+  renderSections();
   showToast('✅ Agregado al carrito', 'su');
 }
 
@@ -936,28 +987,27 @@ function removeFromCart(productId) {
   cart = cart.filter(function(c) { return c.id !== productId; });
   saveCart();
   updateCartUI();
-  renderCatalog();
+  renderSections();
 }
 
 function updateQty(productId, delta) {
   var item = cart.find(function(c) { return c.id === productId; });
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) {
-    cart = cart.filter(function(c) { return c.id !== productId; });
-  }
+  if (item.qty <= 0) cart = cart.filter(function(c) { return c.id !== productId; });
   saveCart();
   updateCartUI();
-  renderCatalog();
+  renderSections();
 }
 
 function clearCart() {
-  if (!confirm('¿Seguro que querés vaciar el carrito?')) return;
-  cart = [];
-  saveCart();
-  updateCartUI();
-  renderCatalog();
-  showToast('🗑️ Carrito vaciado', '');
+  showConfirm('¿Vaciar carrito?', 'Se eliminarán todos los productos del carrito.', function() {
+    cart = [];
+    saveCart();
+    updateCartUI();
+    renderSections();
+    showToast('🗑️ Carrito vaciado', '');
+  });
 }
 
 function updateCartUI() {
@@ -973,42 +1023,33 @@ function updateCartUI() {
 
   var ci = document.getElementById('ci');
   var cb = document.getElementById('cb');
-  var cempty = document.getElementById('cempty');
 
-  if (cart.length === 0) {
+  if (!cart.length) {
     cb.style.display = 'none';
     ci.innerHTML = '<div class="cs-empty"><div class="ei">🛒</div><p>Tu carrito está vacío</p><p style="font-size:11px;margin-top:6px;color:var(--tl)">Tocá el botón + en los productos</p></div>';
     return;
   }
 
   cb.style.display = 'block';
-  var html = '';
-  var total = 0;
+  var html = '', total = 0;
 
   for (var j = 0; j < cart.length; j++) {
     var prod = products.find(function(p) { return p.id === cart[j].id; });
     if (!prod) continue;
-    var subtotal = prod.price * cart[j].qty;
-    total += subtotal;
-    var catL = catLabel(prod.cat);
+    var sub = prod.price * cart[j].qty;
+    total += sub;
+    var catL = getCatName(prod.cat);
 
     html += '<div class="cs-item">' +
-      '<div class="cs-item-in">' +
-      '<div class="cs-item-n">' + prod.name + '</div>' +
-      '<div class="cs-item-c">' + catL + ' · ' + formatPrice(prod.price) + '</div>' +
-      '</div>' +
-      '<div class="cs-item-q">' +
-      '<button class="qb" onclick="updateQty(\'' + prod.id + '\',-1)">−</button>' +
-      '<span class="qn">' + cart[j].qty + '</span>' +
-      '<button class="qb" onclick="updateQty(\'' + prod.id + '\',1)">+</button>' +
-      '</div>' +
-      '<div class="cs-item-p">' + formatPrice(subtotal) + '</div>' +
+      '<div class="cs-item-in"><div class="cs-item-n">' + prod.name + '</div><div class="cs-item-c">' + catL + ' · ' + fmt(prod.price) + '</div></div>' +
+      '<div class="cs-item-q"><button class="qb" onclick="updateQty(\'' + prod.id + '\',-1)">−</button><span class="qn">' + cart[j].qty + '</span><button class="qb" onclick="updateQty(\'' + prod.id + '\',1)">+</button></div>' +
+      '<div class="cs-item-p">' + fmt(sub) + '</div>' +
       '<button class="cs-item-r" onclick="removeFromCart(\'' + prod.id + '\')">✕</button>' +
       '</div>';
   }
 
   ci.innerHTML = html;
-  document.getElementById('cta').textContent = formatPrice(total);
+  document.getElementById('cta').textContent = fmt(total);
 }
 
 function toggleCart() {
@@ -1018,7 +1059,7 @@ function toggleCart() {
 }
 
 function sendWA() {
-  if (cart.length === 0) return;
+  if (!cart.length) return;
   var msg = '🌴 *Pedido PalmImport*\n\n';
   var total = 0;
   for (var i = 0; i < cart.length; i++) {
@@ -1026,20 +1067,60 @@ function sendWA() {
     if (!prod) continue;
     var sub = prod.price * cart[i].qty;
     total += sub;
-    msg += '• ' + prod.name + ' x' + cart[i].qty + ' — ' + formatPrice(sub) + '\n';
+    msg += '• ' + prod.name + ' x' + cart[i].qty + ' — ' + fmt(sub) + '\n';
   }
-  msg += '\n💰 *Total: ' + formatPrice(total) + '*\n\n¡Gracias! 🙌';
+  msg += '\n💰 *Total: ' + fmt(total) + '*\n\n¡Gracias! 🙌';
   window.open('https://wa.me/5492234481625?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ===== IMAGE MODAL =====
+function openImgModal(productId) {
+  modalUploadId = productId;
+  var prod = products.find(function(p) { return p.id === productId; });
+  var preview = document.getElementById('modalImgPreview');
+  if (prod && prod.img) { preview.src = prod.img; preview.classList.add('v'); }
+  else { preview.src = ''; preview.classList.remove('v'); }
+  document.getElementById('imgModal').classList.add('o');
+}
+
+function closeImgModal() {
+  document.getElementById('imgModal').classList.remove('o');
+  modalUploadId = null;
+}
+
+function handleModalImg(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var preview = document.getElementById('modalImgPreview');
+      preview.src = e.target.result;
+      preview.classList.add('v');
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function saveModalImg() {
+  if (!modalUploadId) return;
+  var preview = document.getElementById('modalImgPreview');
+  if (!preview.classList.contains('v')) { showToast('⚠️ Seleccioná una imagen', 'er'); return; }
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === modalUploadId) {
+      products[i].img = preview.src;
+      saveProducts();
+      renderAdminList();
+      showToast('📷 Imagen guardada', 'su');
+      break;
+    }
+  }
+  closeImgModal();
 }
 
 // ===== ADMIN ROUTING =====
 function checkRoute() {
   var hash = window.location.hash;
-  if (hash === '#/admin' || hash === '#/admin/') {
-    showAdminApp();
-  } else {
-    hideAdminApp();
-  }
+  if (hash === '#/admin' || hash === '#/admin/') showAdminApp();
+  else hideAdminApp();
 }
 
 function showAdminApp() {
@@ -1047,13 +1128,11 @@ function showAdminApp() {
   document.getElementById('adminApp').style.display = 'block';
   document.getElementById('adminApp').classList.add('v');
 
-  var loggedIn = sessionStorage.getItem('pi_admin');
-  if (loggedIn === 'true') {
+  if (sessionStorage.getItem('pi_admin') === 'true') {
     document.getElementById('admLogin').style.display = 'none';
     document.getElementById('admDash').style.display = 'block';
     document.getElementById('admDash').classList.add('v');
-    renderAdminList();
-    loadBulkDefaults();
+    initAdmin();
   } else {
     document.getElementById('admLogin').style.display = 'flex';
     document.getElementById('admDash').style.display = 'none';
@@ -1078,8 +1157,7 @@ function doLogin() {
     document.getElementById('admLogin').style.display = 'none';
     document.getElementById('admDash').style.display = 'block';
     document.getElementById('admDash').classList.add('v');
-    renderAdminList();
-    loadBulkDefaults();
+    initAdmin();
     showToast('✅ ¡Bienvenido, Luca!', 'su');
   } else {
     document.getElementById('loginError').style.display = 'block';
@@ -1093,7 +1171,6 @@ function doLogout() {
   showToast('👋 Sesión cerrada', '');
 }
 
-// Enter key for login
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     var lu = document.getElementById('loginUser');
@@ -1103,34 +1180,73 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// ===== ADMIN TABS =====
+// ===== ADMIN INIT =====
+function initAdmin() {
+  loadCategories();
+  loadProducts();
+  renderStats();
+  renderAdminList();
+  renderCatManager();
+  populateCatSelects();
+  renderBulkPrices();
+}
+
 function showATab(tab) {
   var sections = document.querySelectorAll('.as');
   for (var i = 0; i < sections.length; i++) sections[i].classList.remove('v');
   var tabs = document.querySelectorAll('.at');
   for (var t = 0; t < tabs.length; t++) tabs[t].classList.remove('act');
 
-  var map = {products:'tabProducts',add:'tabAdd',supplier:'tabSupplier',prices:'tabPrices'};
-  var mapIdx = {products:0,add:1,supplier:2,prices:3};
+  var map = {dashboard:'tabDashboard',products:'tabProducts',categories:'tabCategories',add:'tabAdd',supplier:'tabSupplier',prices:'tabPrices',export:'tabExport'};
+  var mapIdx = {dashboard:0,products:1,categories:2,add:3,supplier:4,prices:5,export:6};
 
   document.getElementById(map[tab]).classList.add('v');
   if (tabs[mapIdx[tab]]) tabs[mapIdx[tab]].classList.add('act');
 
-  if (tab === 'products') renderAdminList();
-  if (tab === 'prices') loadBulkDefaults();
+  if (tab === 'dashboard') renderStats();
+  if (tab === 'products') { populateFilterCat(); renderAdminList(); }
+  if (tab === 'categories') renderCatManager();
+  if (tab === 'add') { populateCatSelects(); }
+  if (tab === 'prices') renderBulkPrices();
+}
+
+// ===== DASHBOARD STATS =====
+function renderStats() {
+  var row = document.getElementById('statsRow');
+  var totalProducts = products.length;
+  var totalCats = categories.length;
+  var totalSubs = 0;
+  for (var i = 0; i < categories.length; i++) totalSubs += categories[i].subs.length;
+  var withImg = products.filter(function(p){return p.img;}).length;
+
+  row.innerHTML =
+    '<div class="stat-card"><div class="stat-num">' + totalProducts + '</div><div class="stat-label">Productos</div></div>' +
+    '<div class="stat-card"><div class="stat-num">' + totalCats + '</div><div class="stat-label">Categorías</div></div>' +
+    '<div class="stat-card"><div class="stat-num">' + totalSubs + '</div><div class="stat-label">Sub-categorías</div></div>' +
+    '<div class="stat-card"><div class="stat-num">' + withImg + '</div><div class="stat-label">Con Imagen</div></div>';
 }
 
 // ===== ADMIN PRODUCT LIST =====
+function populateFilterCat() {
+  var sel = document.getElementById('filterCat');
+  var html = '<option value="all">📂 Todas las categorías</option>';
+  for (var i = 0; i < categories.length; i++) {
+    html += '<option value="' + categories[i].id + '">' + categories[i].icon + ' ' + categories[i].name + '</option>';
+  }
+  sel.innerHTML = html;
+}
+
 function renderAdminList() {
   var search = (document.getElementById('adminSearch') ? document.getElementById('adminSearch').value : '').toLowerCase();
+  var filterCat = document.getElementById('filterCat') ? document.getElementById('filterCat').value : 'all';
+
   var filtered = products;
-  if (search) {
-    filtered = products.filter(function(p) { return p.name.toLowerCase().indexOf(search) >= 0; });
-  }
+  if (search) filtered = filtered.filter(function(p) { return p.name.toLowerCase().indexOf(search) >= 0; });
+  if (filterCat && filterCat !== 'all') filtered = filtered.filter(function(p) { return p.cat === filterCat; });
 
   var list = document.getElementById('adminProdList');
   if (!filtered.length) {
-    list.innerHTML = '<p style="text-align:center;color:var(--tl);padding:30px">No se encontraron productos</p>';
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><p>No se encontraron productos</p><small>Intentá con otra búsqueda o agregá nuevos</small></div>';
     return;
   }
 
@@ -1138,23 +1254,60 @@ function renderAdminList() {
   for (var i = 0; i < filtered.length; i++) {
     var p = filtered[i];
     html += '<div class="api">' +
-      (p.img ? '<img class="api-img" src="'+p.img+'" alt="'+p.name+'">' : '<div class="api-ph">📦</div>') +
+      (p.img ? '<img class="api-img" src="' + p.img + '" alt="' + p.name + '">' : '<div class="api-ph">📦</div>') +
       '<div class="api-in">' +
       '<div class="api-n">' + p.name + '</div>' +
-      '<div class="api-c">' + catLabel(p.cat) + ' · ' + subLabel(p.sub) + '</div>' +
+      '<div class="api-c">' + getCatIcon(p.cat) + ' ' + getCatName(p.cat) + ' · ' + getSubName(p.cat, p.sub) + '</div>' +
       '</div>' +
-      '<div class="api-pr">' + formatPrice(p.price) + '</div>' +
+      '<div class="api-pr">' + fmt(p.price) + '</div>' +
       '<div class="api-act">' +
-      '<button class="ab ii" title="Subir imagen" onclick="openImgModal(\''+p.id+'\')">📷</button>' +
-      '<button class="ab ei" title="Editar" onclick="editProduct(\''+p.id+'\')">✏️</button>' +
-      '<button class="ab di" title="Eliminar" onclick="deleteProduct(\''+p.id+'\')">🗑️</button>' +
+      '<button class="ab ii" title="Subir imagen" onclick="openImgModal(\'' + p.id + '\')">📷</button>' +
+      '<button class="ab ei" title="Editar producto" onclick="editProduct(\'' + p.id + '\')">✏️</button>' +
+      '<button class="ab fe" title="Toggle destacado" onclick="toggleFeatured(\'' + p.id + '\')">' + (p.featured ? '⭐' : '☆') + '</button>' +
+      '<button class="ab di" title="Eliminar" onclick="deleteProduct(\'' + p.id + '\')">🗑️</button>' +
       '</div>' +
       '</div>';
   }
   list.innerHTML = html;
 }
 
+function toggleFeatured(id) {
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      products[i].featured = !products[i].featured;
+      saveProducts();
+      renderAdminList();
+      showToast(products[i].featured ? '⭐ Marcado como destacado' : '☆ Quitado de destacados', '');
+      break;
+    }
+  }
+}
+
 // ===== ADD / EDIT PRODUCT =====
+function populateCatSelects() {
+  var catSel = document.getElementById('prodCat');
+  var html = '';
+  for (var i = 0; i < categories.length; i++) {
+    html += '<option value="' + categories[i].id + '">' + categories[i].icon + ' ' + categories[i].name + '</option>';
+  }
+  catSel.innerHTML = html;
+  updateSubSelect();
+  catSel.onchange = updateSubSelect;
+}
+
+function updateSubSelect() {
+  var catId = document.getElementById('prodCat').value;
+  var subSel = document.getElementById('prodSub');
+  var cat = getCat(catId);
+  var html = '';
+  if (cat) {
+    for (var i = 0; i < cat.subs.length; i++) {
+      html += '<option value="' + cat.subs[i].id + '">' + cat.subs[i].name + '</option>';
+    }
+  }
+  subSel.innerHTML = html;
+}
+
 function saveProduct() {
   var name = document.getElementById('prodName').value.trim();
   var cat = document.getElementById('prodCat').value;
@@ -1168,6 +1321,8 @@ function saveProduct() {
   if (!price || price <= 0) { showToast('⚠️ Ingresá un precio válido', 'er'); return; }
 
   if (editId) {
+    // EDIT existing
+    var found = false;
     for (var i = 0; i < products.length; i++) {
       if (products[i].id === editId) {
         products[i].name = name;
@@ -1175,31 +1330,43 @@ function saveProduct() {
         products[i].sub = sub;
         products[i].price = price;
         if (img) products[i].img = img;
+        found = true;
         break;
       }
     }
-    showToast('✅ Producto actualizado', 'su');
+    if (!found) {
+      showToast('❌ Producto no encontrado', 'er');
+      return;
+    }
+    showToast('✅ Producto actualizado correctamente', 'su');
   } else {
-    var newId = 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
+    // CREATE new
+    var newId = genId();
     products.push({id: newId, name: name, cat: cat, sub: sub, price: price, img: img || '', featured: false});
-    showToast('✅ Producto creado', 'su');
+    showToast('✅ Producto creado exitosamente', 'su');
   }
 
   saveProducts();
   resetForm();
   renderAdminList();
+  renderStats();
 }
 
 function editProduct(id) {
   var prod = products.find(function(p) { return p.id === id; });
-  if (!prod) return;
+  if (!prod) { showToast('❌ Producto no encontrado', 'er'); return; }
+
+  populateCatSelects();
+
+  // Set category first, then sub
+  document.getElementById('prodCat').value = prod.cat;
+  updateSubSelect();
+  document.getElementById('prodSub').value = prod.sub;
 
   document.getElementById('prodName').value = prod.name;
-  document.getElementById('prodCat').value = prod.cat;
-  document.getElementById('prodSub').value = prod.sub;
   document.getElementById('prodPrice').value = prod.price;
-  document.getElementById('editProdId').value = id;
-  document.getElementById('formTitle').textContent = '✏️ Editar Producto';
+  document.getElementById('editProdId').value = prod.id;
+  document.getElementById('formTitle').textContent = '✏️ Editar: ' + prod.name;
 
   if (prod.img) {
     var preview = document.getElementById('formImgPreview');
@@ -1213,28 +1380,26 @@ function editProduct(id) {
 function deleteProduct(id) {
   var prod = products.find(function(p) { return p.id === id; });
   if (!prod) return;
-  if (!confirm('¿Eliminar "' + prod.name + '"? Esta acción no se puede deshacer.')) return;
-
-  products = products.filter(function(p) { return p.id !== id; });
-  cart = cart.filter(function(c) { return c.id !== id; });
-  saveProducts();
-  saveCart();
-  renderAdminList();
-  renderCatalog();
-  updateCartUI();
-  showToast('🗑️ Producto eliminado', '');
+  showConfirm('¿Eliminar producto?', 'Se eliminará "' + prod.name + '" permanentemente.', function() {
+    products = products.filter(function(p) { return p.id !== id; });
+    cart = cart.filter(function(c) { return c.id !== id; });
+    saveProducts();
+    saveCart();
+    renderAdminList();
+    renderStats();
+    showToast('🗑️ Producto eliminado', '');
+  });
 }
 
 function resetForm() {
   document.getElementById('prodName').value = '';
-  document.getElementById('prodCat').value = 'splashes';
-  document.getElementById('prodSub').value = 'classic';
   document.getElementById('prodPrice').value = '';
   document.getElementById('editProdId').value = '';
   document.getElementById('formTitle').textContent = '➕ Agregar Nuevo Producto';
   var preview = document.getElementById('formImgPreview');
   preview.src = '';
   preview.classList.remove('v');
+  populateCatSelects();
 }
 
 function previewFormImg(input) {
@@ -1249,66 +1414,126 @@ function previewFormImg(input) {
   }
 }
 
-// ===== IMAGE UPLOAD MODAL =====
-function openImgModal(productId) {
-  modalUploadId = productId;
-  var prod = products.find(function(p) { return p.id === productId; });
-  var preview = document.getElementById('modalImgPreview');
-  if (prod && prod.img) {
-    preview.src = prod.img;
-    preview.classList.add('v');
-  } else {
-    preview.src = '';
-    preview.classList.remove('v');
-  }
-  document.getElementById('imgModal').classList.add('o');
-}
-
-function closeImgModal() {
-  document.getElementById('imgModal').classList.remove('o');
-  modalUploadId = null;
-}
-
-function handleModalImg(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var preview = document.getElementById('modalImgPreview');
-      preview.src = e.target.result;
-      preview.classList.add('v');
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-function saveModalImg() {
-  if (!modalUploadId) return;
-  var preview = document.getElementById('modalImgPreview');
-  if (!preview.classList.contains('v')) {
-    showToast('⚠️ Seleccioná una imagen primero', 'er');
+// ===== CATEGORY MANAGER =====
+function renderCatManager() {
+  var container = document.getElementById('catManager');
+  if (!categories.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏷️</div><p>No hay categorías</p><small>Agregá una nueva categoría abajo</small></div>';
     return;
   }
-  for (var i = 0; i < products.length; i++) {
-    if (products[i].id === modalUploadId) {
-      products[i].img = preview.src;
-      saveProducts();
-      renderAdminList();
-      showToast('📷 Imagen guardada correctamente', 'su');
-      break;
+
+  var html = '';
+  for (var i = 0; i < categories.length; i++) {
+    var cat = categories[i];
+    var prodCount = products.filter(function(p) { return p.cat === cat.id; }).length;
+
+    html += '<div class="cat-item">' +
+      '<span class="cat-icon">' + cat.icon + '</span>' +
+      '<div style="flex:1;min-width:0">' +
+      '<div class="cat-name">' + cat.name + '</div>' +
+      '<div class="subcat-tags">';
+    for (var s = 0; s < cat.subs.length; s++) {
+      html += '<span class="subcat-tag">' + cat.subs[s].name + '</span>';
     }
+    html += '</div></div>' +
+      '<span class="cat-count">' + prodCount + ' prod.</span>' +
+      '<div class="cat-act">' +
+      '<button class="ab ei" title="Editar categoría" onclick="editCategory(\'' + cat.id + '\')">✏️</button>' +
+      '<button class="ab di" title="Eliminar categoría" onclick="deleteCategory(\'' + cat.id + '\')">🗑️</button>' +
+      '</div>' +
+      '</div>';
   }
-  closeImgModal();
+  container.innerHTML = html;
 }
 
-// ===== SUPPLIER FILE UPLOAD =====
+function addCategory() {
+  var name = document.getElementById('newCatName').value.trim();
+  var icon = document.getElementById('newCatIcon').value.trim() || '📦';
+  var subsStr = document.getElementById('newCatSubs').value.trim();
+
+  if (!name) { showToast('⚠️ Ingresá un nombre', 'er'); return; }
+
+  var subs = [];
+  if (subsStr) {
+    var subArr = subsStr.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+    for (var i = 0; i < subArr.length; i++) {
+      subs.push({id: subArr[i].toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '_' + Date.now(), name: subArr[i]});
+    }
+  }
+  if (!subs.length) subs.push({id: 'default_' + Date.now(), name: 'General'});
+
+  categories.push({id: 'cat_' + Date.now(), name: name, icon: icon, subs: subs});
+  saveCategories();
+
+  document.getElementById('newCatName').value = '';
+  document.getElementById('newCatIcon').value = '';
+  document.getElementById('newCatSubs').value = '';
+
+  renderCatManager();
+  renderStats();
+  showToast('✅ Categoría "' + name + '" creada', 'su');
+}
+
+function editCategory(id) {
+  var cat = getCat(id);
+  if (!cat) return;
+
+  var newName = prompt('Nombre de la categoría:', cat.name);
+  if (newName === null || !newName.trim()) return;
+
+  var newIcon = prompt('Icono (emoji):', cat.icon);
+  if (newIcon !== null) cat.icon = newIcon.trim() || '📦';
+  cat.name = newName.trim();
+
+  // Edit subs
+  var subsHtml = 'Sub-categorías actuales:\n';
+  for (var i = 0; i < cat.subs.length; i++) {
+    subsHtml += (i+1) + '. ' + cat.subs[i].name + '\n';
+  }
+  subsHtml += '\nIngresá las sub-categorías separadas por coma:';
+  var newSubs = prompt(subsHtml, cat.subs.map(function(s){return s.name;}).join(', '));
+
+  if (newSubs !== null) {
+    var subArr = newSubs.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+    // Keep existing sub ids if name matches
+    var newSubObjects = [];
+    for (var j = 0; j < subArr.length; j++) {
+      var existing = cat.subs.find(function(s) { return s.name === subArr[j]; });
+      newSubObjects.push(existing ? existing : {id: subArr[j].toLowerCase().replace(/\s+/g,'_') + '_' + Date.now(), name: subArr[j]});
+    }
+    cat.subs = newSubObjects;
+  }
+
+  saveCategories();
+  renderCatManager();
+  showToast('✅ Categoría actualizada', 'su');
+}
+
+function deleteCategory(id) {
+  var cat = getCat(id);
+  if (!cat) return;
+  var prodCount = products.filter(function(p) { return p.cat === id; }).length;
+  var msg = 'Se eliminará la categoría "' + cat.name + '"';
+  if (prodCount > 0) msg += ' y sus ' + prodCount + ' productos asociados';
+  msg += '. ¿Continuar?';
+
+  showConfirm('¿Eliminar categoría?', msg, function() {
+    products = products.filter(function(p) { return p.cat !== id; });
+    categories = categories.filter(function(c) { return c.id !== id; });
+    saveCategories();
+    saveProducts();
+    renderCatManager();
+    renderStats();
+    showToast('🗑️ Categoría eliminada', '');
+  });
+}
+
+// ===== SUPPLIER =====
 function parseSupplierFile(input) {
   if (!input.files || !input.files[0]) return;
-  var file = input.files[0];
   var reader = new FileReader();
-  reader.onload = function(e) {
-    parseSupplierText(e.target.result);
-  };
-  reader.readAsText(file);
+  reader.onload = function(e) { parseSupplierText(e.target.result); };
+  reader.readAsText(input.files[0]);
 }
 
 function parseSupplierText(text) {
@@ -1316,18 +1541,14 @@ function parseSupplierText(text) {
   var lines = text.split('\n').filter(function(l) { return l.trim(); });
 
   for (var i = 0; i < lines.length; i++) {
-    var line = lines[i].trim();
-    // Try comma, tab, semicolon, pipe
-    var parts = line.split(',');
-    if (parts.length < 2) parts = line.split('\t');
-    if (parts.length < 2) parts = line.split(';');
-    if (parts.length < 2) parts = line.split('|');
+    var parts = lines[i].split(',');
+    if (parts.length < 2) parts = lines[i].split('\t');
+    if (parts.length < 2) parts = lines[i].split(';');
+    if (parts.length < 2) parts = lines[i].split('|');
     if (parts.length < 2) continue;
 
     var name = parts[0].trim();
-    var priceStr = parts[parts.length - 1].trim();
-    // Clean price: remove currency symbols, dots as thousands, commas as decimals
-    priceStr = priceStr.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
+    var priceStr = parts[parts.length - 1].trim().replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
     var price = parseFloat(priceStr);
 
     if (name && !isNaN(price) && price > 0) {
@@ -1343,17 +1564,14 @@ function renderParsedProducts() {
   var actions = document.getElementById('supplierActions');
 
   if (!supplierParsed.length) {
-    container.innerHTML = '<p style="color:var(--tl);font-size:13px;text-align:center;padding:20px">No se pudieron extraer productos. Verificá el formato del archivo.</p>';
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📄</div><p>No se pudieron extraer productos</p><small>Verificá el formato del archivo</small></div>';
     actions.style.display = 'none';
     return;
   }
 
   var html = '<p style="font-size:12px;color:var(--tm);font-weight:600;margin-bottom:8px">📋 ' + supplierParsed.length + ' productos detectados:</p>';
   for (var i = 0; i < supplierParsed.length; i++) {
-    html += '<div class="pp-item">' +
-      '<span class="ppn">📦 ' + supplierParsed[i].name + '</span>' +
-      '<span class="ppp">' + formatPrice(supplierParsed[i].price) + '</span>' +
-      '</div>';
+    html += '<div class="pp-item"><span class="ppn">📦 ' + supplierParsed[i].name + '</span><span class="ppp">' + fmt(supplierParsed[i].price) + '</span></div>';
   }
   container.innerHTML = html;
   actions.style.display = 'flex';
@@ -1361,91 +1579,150 @@ function renderParsedProducts() {
 
 function importSupplierProducts() {
   if (!supplierParsed.length) return;
-
-  var imported = 0;
-  var skipped = 0;
+  var imported = 0, skipped = 0;
 
   for (var i = 0; i < supplierParsed.length; i++) {
     var sp = supplierParsed[i];
     var exists = products.find(function(p) { return p.name.toLowerCase() === sp.name.toLowerCase(); });
-
     if (!exists) {
-      products.push({
-        id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,5),
-        name: sp.name,
-        cat: 'splashes',
-        sub: 'classic',
-        price: sp.price,
-        img: '',
-        featured: false
-      });
+      products.push({id: genId(), name: sp.name, cat: categories.length ? categories[0].id : '', sub: categories.length && categories[0].subs.length ? categories[0].subs[0].id : '', price: sp.price, img: '', featured: false});
       imported++;
-    } else {
-      skipped++;
-    }
+    } else { skipped++; }
   }
 
   saveProducts();
-  renderAdminList();
   clearSupplier();
-  showToast('✅ ' + imported + ' productos importados' + (skipped ? ' (' + skipped + ' ya existían)' : ''), 'su');
+  renderStats();
+  showToast('✅ ' + imported + ' importados' + (skipped ? ' (' + skipped + ' duplicados)' : ''), 'su');
 }
 
 function clearSupplier() {
   supplierParsed = [];
   document.getElementById('parsedProducts').innerHTML = '';
   document.getElementById('supplierActions').style.display = 'none';
-  var fileInput = document.getElementById('supplierFile');
-  if (fileInput) fileInput.value = '';
+  var fi = document.getElementById('supplierFile');
+  if (fi) fi.value = '';
 }
 
 // ===== BULK PRICES =====
-function loadBulkDefaults() {
-  var defaults = {
-    'bulk-sp-cl': 38000, 'bulk-sp-sh': 40000, 'bulk-sp-li': 40000, 'bulk-sp-va': 40000,
-    'bulk-cr-cl': 37000, 'bulk-cr-sh': 38000, 'bulk-cr-li': 37500, 'bulk-gl-all': 26600
-  };
-  var keys = Object.keys(defaults);
-  for (var i = 0; i < keys.length; i++) {
-    var el = document.getElementById(keys[i]);
-    if (el && !el.value) el.value = defaults[keys[i]];
+function renderBulkPrices() {
+  var container = document.getElementById('bulkPriceList');
+  if (!container) return;
+  var html = '';
+
+  for (var ci = 0; ci < categories.length; ci++) {
+    var cat = categories[ci];
+    html += '<h4 style="font-size:15px;color:var(--pd);margin:16px 0 8px">' + cat.icon + ' ' + cat.name + '</h4>';
+
+    for (var si = 0; si < cat.subs.length; si++) {
+      var sub = cat.subs[si];
+      var count = products.filter(function(p) { return p.cat === cat.id && p.sub === sub.id; }).length;
+      var inputId = 'bulk_' + cat.id + '_' + sub.id;
+      html += '<div class="br">' +
+        '<label>' + sub.name + ' <small style="color:var(--tl)">(' + count + ')</small></label>' +
+        '<input type="number" id="' + inputId + '" placeholder="Precio">' +
+        '<span class="bc">ARS</span>' +
+        '</div>';
+    }
+  }
+
+  container.innerHTML = html;
+
+  // Pre-fill with current prices
+  for (var ci2 = 0; ci2 < categories.length; ci2++) {
+    var cat2 = categories[ci2];
+    for (var si2 = 0; si2 < cat2.subs.length; si2++) {
+      var sub2 = cat2.subs[si2];
+      var inputId2 = 'bulk_' + cat2.id + '_' + sub2.id;
+      var el = document.getElementById(inputId2);
+      if (el) {
+        var sample = products.find(function(p) { return p.cat === cat2.id && p.sub === sub2.id; });
+        if (sample) el.value = sample.price;
+      }
+    }
   }
 }
 
 function applyBulkPrices() {
-  var priceMap = {
-    'splashes-classic': parseInt(document.getElementById('bulk-sp-cl').value),
-    'splashes-shimmer': parseInt(document.getElementById('bulk-sp-sh').value),
-    'splashes-limited': parseInt(document.getElementById('bulk-sp-li').value),
-    'splashes-vacation': parseInt(document.getElementById('bulk-sp-va').value),
-    'cremas-classic': parseInt(document.getElementById('bulk-cr-cl').value),
-    'cremas-shimmer': parseInt(document.getElementById('bulk-cr-sh').value),
-    'cremas-limited': parseInt(document.getElementById('bulk-cr-li').value),
-    'gloss-all': parseInt(document.getElementById('bulk-gl-all').value)
-  };
-
   var updated = 0;
 
-  for (var i = 0; i < products.length; i++) {
-    var p = products[i];
-    var key = p.cat + '-' + p.sub;
+  for (var ci = 0; ci < categories.length; ci++) {
+    var cat = categories[ci];
+    for (var si = 0; si < cat.subs.length; si++) {
+      var sub = cat.subs[si];
+      var inputId = 'bulk_' + cat.id + '_' + sub.id;
+      var el = document.getElementById(inputId);
+      if (!el) continue;
+      var newPrice = parseInt(el.value);
+      if (!newPrice || newPrice <= 0) continue;
 
-    if (p.cat === 'gloss' && priceMap['gloss-all'] && !isNaN(priceMap['gloss-all'])) {
-      p.price = priceMap['gloss-all'];
-      updated++;
-    } else if (priceMap[key] && !isNaN(priceMap[key])) {
-      p.price = priceMap[key];
-      updated++;
+      for (var pi = 0; pi < products.length; pi++) {
+        if (products[pi].cat === cat.id && products[pi].sub === sub.id) {
+          products[pi].price = newPrice;
+          updated++;
+        }
+      }
     }
   }
 
   saveProducts();
-  renderAdminList();
   showToast('✅ ' + updated + ' precios actualizados', 'su');
 }
 
-// ===== INITIALIZATION =====
+// ===== EXPORT CODE =====
+function generateExportCode() {
+  var area = document.getElementById('exportArea');
+  var textarea = document.getElementById('exportCode');
+
+  var code = '[\n';
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    code += '  {id:\'' + p.id + '\',name:\'' + p.name.replace(/'/g,"\\'") + '\',cat:\'' + p.cat + '\',sub:\'' + p.sub + '\',price:' + p.price + ',img:\'' + (p.img ? p.img.substring(0, 50) + '...' : '') + '\',featured:' + (p.featured ? 'true' : 'false') + '}';
+    if (i < products.length - 1) code += ',';
+    code += '\n';
+  }
+  code += ']';
+
+  // Full export with images
+  var fullCode = JSON.stringify(products, null, 2);
+
+  textarea.value = fullCode;
+  area.style.display = 'block';
+  showToast('📥 Código generado. Copialo y reemplazalo en tu HTML.', 'su');
+}
+
+function copyExportCode() {
+  var textarea = document.getElementById('exportCode');
+  textarea.select();
+  textarea.setSelectionRange(0, 99999);
+
+  try {
+    navigator.clipboard.writeText(textarea.value).then(function() {
+      showToast('📋 ¡Código copiado al portapapeles!', 'su');
+    });
+  } catch(e) {
+    document.execCommand('copy');
+    showToast('📋 ¡Código copiado!', 'su');
+  }
+}
+
+function downloadExportFile() {
+  var data = JSON.stringify(products, null, 2);
+  var blob = new Blob([data], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'palmimport_productos.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('💾 Archivo descargado', 'su');
+}
+
+// ===== INIT =====
 function init() {
+  loadCategories();
   loadProducts();
   loadCart();
   renderCatalog();
