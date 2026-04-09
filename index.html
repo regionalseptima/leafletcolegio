@@ -1,1740 +1,509 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PalmImport</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --p:#BA6B82;--pd:#9E5A6F;--pl:#E8C4D0;--pp:#F7E9EE;--ppu:#FDF5F7;
-  --w:#FFF;--td:#3D2E34;--tm:#6B5560;--tl:#9B8790;--bg:#FFFAFB;
-  --wa:#25D366;--er:#E53935;--erl:#FFEBEE;--su:#2E7D32;--sul:#E8F5E9;
-  --or:#E65100;--orl:#FFF3E0;--bl:#1565C0;--bll:#E3F2FD;
-  --sh:0 2px 12px rgba(0,0,0,.07);--shl:0 8px 30px rgba(0,0,0,.1);
-  --r:16px;--rs:10px;--tr:all .25s cubic-bezier(.4,0,.2,1);
-}
-html{scroll-behavior:smooth}
-body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--td);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-/* ===== LOGO ===== */
-.logo-wrap{display:flex;align-items:center;gap:0;user-select:none}
-.logo-palm{position:relative;display:inline-block;width:28px;height:36px}
-.logo-palm svg{width:100%;height:100%}
-.logo-text{font-weight:800;font-size:22px;color:var(--p);letter-spacing:-1px;line-height:1}
-
-/* ===== HEADER ===== */
-.hdr{background:rgba(255,255,255,.97);border-bottom:1px solid var(--pp);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.hdr-in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-.hdr-r{display:flex;align-items:center;gap:10px}
-.badge{background:var(--pp);color:var(--pd);padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
-.cart-btn{position:relative;background:var(--p);color:#fff;border:none;border-radius:12px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;transition:var(--tr)}
-.cart-btn:active{transform:scale(.95)}
-.cart-cnt{background:#fff;color:var(--p);border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;font-size:10px;font-weight:800;position:absolute;top:-6px;right:-6px}
-.cart-cnt.show{display:flex}
-.cart-cnt.bump{animation:bump .3s ease}
-@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
-
-/* ===== HERO ===== */
-.hero{background:linear-gradient(135deg,var(--p) 0%,var(--pd) 100%);color:#fff;text-align:center;padding:48px 16px 38px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40%;right:-20%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-30%;left:-15%;width:250px;height:250px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none}
-.hero h1{font-size:30px;font-weight:700;margin-bottom:8px;position:relative}
-.hero p{font-size:14px;opacity:.9;max-width:380px;margin:0 auto;position:relative}
-
-/* ===== NAV ===== */
-.cnav{background:var(--w);border-bottom:1px solid var(--pp);position:sticky;top:58px;z-index:99}
-.cnav-in{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto}
-.cnav-in::-webkit-scrollbar{display:none}
-.nb{flex:1;min-width:max-content;padding:13px 16px;border:none;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--tm);cursor:pointer;position:relative;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;transition:color .2s}
-.nb:active{opacity:.7}
-.nb.act{color:var(--p)}
-.nb.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2.5px;background:var(--p);border-radius:2px 2px 0 0}
-
-/* ===== MAIN ===== */
-.mn{max-width:1100px;margin:0 auto;padding:16px;padding-bottom:100px}
-
-/* ===== SECTIONS ===== */
-.sec{display:none}.sec.v{display:block;animation:fu .35s ease}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-.sh{background:var(--w);border-radius:var(--r);padding:22px 18px;margin-bottom:14px;border:1px solid var(--pp);box-shadow:var(--sh)}
-.sh h2{font-size:22px;font-weight:700;color:var(--pd);margin-bottom:4px}
-.sh .sub{font-size:12px;color:var(--tl);margin-bottom:14px}
-.pr-row{display:flex;flex-wrap:wrap;gap:6px}
-.pr-c{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700}
-.pr-c.cl{background:var(--pp);color:var(--pd)}.pr-c.sh{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);color:#8D6E63}
-.pr-c.li{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);color:#6A1B9A}.pr-c.va{background:linear-gradient(135deg,#E0F2F1,#B2DFDB);color:#00695C}
-
-/* ===== SUB SECTION ===== */
-.ss{background:var(--w);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--pp);box-shadow:var(--sh)}
-.ss-h{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--pp);flex-wrap:wrap}
-.ss-i{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.ss-i.cl{background:var(--pp)}.ss-i.sh{background:linear-gradient(135deg,#FFF3E0,#FFE0B2)}.ss-i.li{background:linear-gradient(135deg,#F3E5F5,#E1BEE7)}.ss-i.va{background:linear-gradient(135deg,#E0F2F1,#B2DFDB)}
-.ss-t{font-size:15px;font-weight:700}
-.ss-p{font-size:11px;color:var(--p);font-weight:700;margin-left:auto;background:var(--ppu);padding:3px 10px;border-radius:6px;white-space:nowrap}
-
-/* ===== PRODUCT GRID ===== */
-.pg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:500px){.pg{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:800px){.pg{grid-template-columns:repeat(4,1fr)}}
-
-.pc{padding:12px 10px;border-radius:12px;background:var(--ppu);display:flex;align-items:center;gap:10px;transition:var(--tr);border:2px solid transparent;cursor:pointer;user-select:none;position:relative;min-height:54px}
-.pc:hover{border-color:var(--pl);background:var(--pp)}
-.pc:active{transform:scale(.97)}
-.pc.ic{background:var(--pp);border-color:var(--p)}
-.pc-img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:var(--pl);flex-shrink:0}
-.pd{width:8px;height:8px;border-radius:50%;background:var(--p);flex-shrink:0;opacity:.4}
-.pc.ic .pd{opacity:1}
-.pn{font-size:12px;font-weight:500;line-height:1.3;flex:1}
-.pf{font-size:13px;flex-shrink:0}
-.add-btn{width:30px;height:30px;border-radius:50%;background:var(--p);color:#fff;border:none;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:var(--tr);line-height:1}
-.add-btn:active{transform:scale(.85);background:var(--pd)}
-.pc.ic .add-btn{background:var(--pd);font-size:13px}
-
-/* ===== SECTION FOOTER ===== */
-.sf{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--pp)}
-.sb{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px}
-.sb.op{background:var(--sul);color:var(--su)}.sb.cl2{background:var(--orl);color:var(--or)}.sb.ls{background:var(--erl);color:var(--er)}
-
-/* ===== GLOSS SPECIAL ===== */
-.gs{background:linear-gradient(135deg,var(--p),var(--pd));border-radius:var(--r);padding:30px 18px;color:#fff;text-align:center;margin-bottom:14px;box-shadow:var(--shl);position:relative;overflow:hidden}
-.gs::before{content:'';position:absolute;top:-40%;right:-20%;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
-.gb{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
-.gs h2{font-size:26px;margin-bottom:6px}
-.gs p{font-size:13px;opacity:.9}
-.gp{font-size:34px;font-weight:800;margin:14px 0 4px}
-.gpo{font-size:15px;text-decoration:line-through;opacity:.6}
-
-/* ===== CART SIDEBAR ===== */
-.co{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
-.co.o{opacity:1;pointer-events:all}
-.cs{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:400px;background:var(--w);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-6px 0 30px rgba(0,0,0,.12)}
-.cs.o{transform:translateX(0)}
-.cs-top{padding:18px 20px;border-bottom:1px solid var(--pp);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.cs-top h3{font-size:19px;font-weight:700;color:var(--pd)}
-.cs-x{background:none;border:none;font-size:22px;cursor:pointer;color:var(--tm);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.cs-x:hover{background:var(--pp)}
-.cs-items{flex:1;overflow-y:auto;padding:14px 20px;-webkit-overflow-scrolling:touch}
-.cs-empty{text-align:center;padding:40px 16px;color:var(--tl)}
-.cs-empty .ei{font-size:44px;margin-bottom:10px;opacity:.4}
-.cs-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:var(--ppu);margin-bottom:8px;transition:background .2s}
-.cs-item:hover{background:var(--pp)}
-.cs-item-in{flex:1;min-width:0}
-.cs-item-n{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cs-item-c{font-size:10px;color:var(--tl);margin-top:2px}
-.cs-item-p{font-size:13.5px;font-weight:700;color:var(--p);white-space:nowrap}
-.cs-item-q{display:flex;align-items:center;gap:6px}
-.qb{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--pl);background:var(--w);cursor:pointer;font-size:16px;font-weight:600;color:var(--p);display:flex;align-items:center;justify-content:center;transition:var(--tr)}
-.qb:active{background:var(--pp);transform:scale(.9)}
-.qn{font-size:14px;font-weight:700;min-width:18px;text-align:center}
-.cs-item-r{background:none;border:none;color:var(--tl);cursor:pointer;font-size:17px;padding:4px;transition:color .2s}
-.cs-item-r:hover{color:var(--er)}
-.cs-bot{padding:18px 20px;border-top:1px solid var(--pp);flex-shrink:0;background:var(--w)}
-.cs-tot{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:15px;font-weight:700}
-.cs-tot .ta{font-size:22px;color:var(--p)}
-.wa-btn{width:100%;padding:15px;border:none;border-radius:14px;background:var(--wa);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:var(--tr)}
-.wa-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
-.wa-btn:active{transform:scale(.98)}
-.cl-btn{width:100%;padding:10px;border:none;border-radius:10px;background:var(--erl);color:var(--er);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:10px;transition:background .2s}
-.cl-btn:hover{background:#FFCDD2}
-
-/* ===== FOOTER ===== */
-.ftr{text-align:center;padding:30px 16px 100px;color:var(--tl);font-size:11px}
-
-/* ===== WA FLOAT ===== */
-.wf{position:fixed;bottom:20px;right:16px;z-index:99;animation:bi .5s ease .8s both}
-@keyframes bi{0%{opacity:0;transform:scale(.5) translateY(16px)}60%{transform:scale(1.1) translateY(-3px)}100%{opacity:1;transform:scale(1) translateY(0)}}
-.wl{background:var(--w);padding:7px 14px;border-radius:10px;font-size:11px;font-weight:700;box-shadow:var(--sh);white-space:nowrap;margin-bottom:6px;text-align:center}
-.wb{width:54px;height:54px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;animation:pu 2s infinite;margin:0 auto}
-@keyframes pu{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.35)}50%{box-shadow:0 4px 20px rgba(37,211,102,.35),0 0 0 12px rgba(37,211,102,.1)}}
-.wb svg{width:28px;height:28px;fill:#fff}
-
-/* ===== TOAST ===== */
-.tc{position:fixed;top:70px;right:12px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none;max-width:calc(100vw - 24px)}
-.tst{background:var(--w);border-radius:12px;padding:11px 16px;box-shadow:var(--shl);font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;animation:si .3s ease;border-left:4px solid var(--p);pointer-events:auto}
-.tst.su{border-left-color:var(--su)}.tst.er{border-left-color:var(--er)}
-@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-
-/* ===== ADMIN APP ===== */
-.admin-app{display:none;min-height:100vh;background:var(--bg)}
-.admin-app.v{display:block}
-
-/* Admin Login */
-.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--p),var(--pd));padding:20px}
-.login-card{background:var(--w);border-radius:24px;padding:40px 28px;width:100%;max-width:380px;box-shadow:var(--shl);text-align:center}
-.login-card .logo-area{margin-bottom:28px}
-.login-card h2{font-size:22px;font-weight:700;color:var(--pd);margin-bottom:6px}
-.login-card .login-sub{font-size:13px;color:var(--tl);margin-bottom:28px}
-.login-error{background:var(--erl);color:var(--er);padding:10px 14px;border-radius:10px;font-size:12px;margin-bottom:18px;display:none}
-
-/* Form Elements */
-.fg{margin-bottom:16px;text-align:left}
-.fg label{display:block;font-size:11px;font-weight:700;color:var(--tm);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:14px;color:var(--td);transition:var(--tr);background:var(--ppu);-webkit-appearance:none}
-.fg input:focus,.fg select:focus{outline:none;border-color:var(--p);background:var(--w);box-shadow:0 0 0 3px rgba(186,107,130,.15)}
-
-.btn{padding:12px 20px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
-.btn:active{transform:scale(.97)}
-.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}
-.btn-s{background:none;border:2px solid var(--pp);color:var(--tm)}.btn-s:hover{border-color:var(--p);color:var(--p)}
-.btn-d{background:var(--er);color:#fff}.btn-d:hover{filter:brightness(1.1)}
-.btn-w{background:var(--wa);color:#fff}.btn-w:hover{filter:brightness(1.08)}
-.btn-bl{background:var(--bl);color:#fff}.btn-bl:hover{filter:brightness(1.1)}
-.btn-sm{padding:8px 14px;font-size:12px;border-radius:9px}
-.btn-full{width:100%}
-
-/* Admin Dashboard */
-.adm-dash{display:none;min-height:100vh}.adm-dash.v{display:block}
-.adh{background:var(--w);border-bottom:1px solid var(--pp);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.adh-r{display:flex;align-items:center;gap:12px}
-.ub{font-size:11px;color:var(--tm);font-weight:600}
-.alb{padding:6px 14px;border:2px solid var(--pp);border-radius:8px;background:none;font-family:inherit;font-size:11px;font-weight:700;color:var(--tm);cursor:pointer;transition:var(--tr)}
-.alb:hover{border-color:var(--er);color:var(--er)}
-
-.atn{background:var(--w);border-bottom:1px solid var(--pp);overflow-x:auto}.atn::-webkit-scrollbar{display:none}
-.atn-in{max-width:1100px;margin:0 auto;display:flex}
-.at{flex:1;min-width:max-content;padding:13px 16px;border:none;background:none;font-family:inherit;font-size:11px;font-weight:700;color:var(--tm);cursor:pointer;position:relative;white-space:nowrap;transition:color .2s;text-transform:uppercase;letter-spacing:.3px}
-.at:hover{color:var(--p)}
-.at.act{color:var(--p)}
-.at.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2.5px;background:var(--p);border-radius:2px 2px 0 0}
-
-.amn{max-width:1100px;margin:0 auto;padding:16px}
-.as{display:none}.as.v{display:block;animation:fu .3s ease}
-
-.ac{background:var(--w);border-radius:var(--r);padding:22px 18px;margin-bottom:14px;border:1px solid var(--pp);box-shadow:var(--sh)}
-.ac h3{font-size:20px;font-weight:700;color:var(--pd);margin-bottom:4px}
-.ac .as2{font-size:12px;color:var(--tl);margin-bottom:18px}
-
-/* Admin Product List */
-.apl{display:flex;flex-direction:column;gap:6px}
-.api{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--ppu);border:1px solid transparent;transition:var(--tr)}
-.api:hover{border-color:var(--pl);background:var(--pp)}
-.api-img{width:44px;height:44px;border-radius:10px;object-fit:cover;background:var(--pl);flex-shrink:0}
-.api-ph{width:44px;height:44px;border-radius:10px;background:var(--pp);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
-.api-in{flex:1;min-width:0}
-.api-n{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.api-c{font-size:10px;color:var(--tl);margin-top:2px}
-.api-pr{font-size:14px;font-weight:700;color:var(--p);white-space:nowrap;margin-right:8px}
-.api-act{display:flex;gap:5px;flex-shrink:0}
-.ab{width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
-.ab.ei{background:var(--pp);color:var(--p)}.ab.ei:hover{background:var(--p);color:#fff}
-.ab.di{background:var(--erl);color:var(--er)}.ab.di:hover{background:var(--er);color:#fff}
-.ab.ii{background:#E3F2FD;color:var(--bl)}.ab.ii:hover{background:var(--bl);color:#fff}
-.ab.fe{background:var(--orl);color:var(--or)}.ab.fe:hover{background:var(--or);color:#fff}
-
-/* Search */
-.sr{position:relative;margin-bottom:14px}
-.sr::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
-.sb2{width:100%;padding:10px 14px 10px 38px;border:2px solid var(--pp);border-radius:10px;font-family:inherit;font-size:13px;background:var(--ppu);transition:var(--tr)}
-.sb2:focus{outline:none;border-color:var(--p);background:var(--w);box-shadow:0 0 0 3px rgba(186,107,130,.15)}
-
-/* Upload Area */
-.ua{border:2px dashed var(--pl);border-radius:14px;padding:32px 16px;text-align:center;cursor:pointer;transition:var(--tr);background:var(--ppu)}
-.ua:hover{border-color:var(--p);background:var(--pp)}
-.ua .ui2{font-size:36px;margin-bottom:8px;opacity:.5}
-.ua p{font-size:14px;color:var(--tm);margin-bottom:2px}
-.ua small{font-size:11px;color:var(--tl)}
-
-/* Parsed Products */
-.pp-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:9px;background:var(--ppu);margin-bottom:5px;font-size:12px}
-.pp-item .ppn{flex:1;font-weight:500}.pp-item .ppp{font-weight:700;color:var(--p)}
-
-/* Bulk Price */
-.br{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;background:var(--ppu);margin-bottom:8px;flex-wrap:wrap}
-.br label{font-size:12px;font-weight:600;min-width:120px;flex:1}
-.br input{width:100px;padding:9px 10px;border:2px solid var(--pp);border-radius:8px;font-family:inherit;font-size:13px;text-align:center;transition:border-color .2s}
-.br input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(186,107,130,.15)}
-.bc{font-size:11px;color:var(--tl);font-weight:600}
-
-/* Image Modal */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
-.mo.o{display:flex}
-.mc{background:var(--w);border-radius:20px;padding:24px;width:100%;max-width:420px;box-shadow:var(--shl);max-height:90vh;overflow-y:auto}
-.mc h3{font-size:19px;font-weight:700;margin-bottom:16px;color:var(--pd)}
-.mpr{width:100%;height:200px;border-radius:12px;background:var(--pp);margin-bottom:16px;display:none;object-fit:cover}
-.mpr.v{display:block}
-.fiw{border:2px dashed var(--pl);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:var(--tr);margin-bottom:16px}
-.fiw:hover{border-color:var(--p);background:var(--ppu)}
-.fa{display:flex;gap:8px;margin-top:18px}
-.fa .btn{flex:1}
-
-/* Form Row */
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:500px){.frow{grid-template-columns:1fr}}
-
-/* Category Manager */
-.cat-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.cat-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:var(--ppu);border:1px solid transparent;transition:var(--tr)}
-.cat-item:hover{border-color:var(--pl)}
-.cat-icon{font-size:20px;width:32px;text-align:center;flex-shrink:0}
-.cat-name{font-size:14px;font-weight:600;flex:1}
-.cat-count{font-size:11px;color:var(--tl);margin-right:8px}
-.cat-act{display:flex;gap:4px}
-
-/* Export Code */
-.export-area{background:var(--ppu);border:1px solid var(--pp);border-radius:12px;padding:16px;margin-top:14px;position:relative}
-.export-area textarea{width:100%;min-height:200px;border:none;background:transparent;font-family:'Courier New',monospace;font-size:11px;color:var(--td);resize:vertical;outline:none}
-.export-area .copy-btn{position:absolute;top:8px;right:8px}
-
-/* Confirm Dialog */
-.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;display:none;align-items:center;justify-content:center;padding:16px}
-.confirm-overlay.o{display:flex}
-.confirm-box{background:var(--w);border-radius:20px;padding:28px;width:100%;max-width:360px;box-shadow:var(--shl);text-align:center}
-.confirm-box h4{font-size:18px;margin-bottom:8px;color:var(--pd)}
-.confirm-box p{font-size:13px;color:var(--tm);margin-bottom:20px}
-.confirm-actions{display:flex;gap:10px}
-.confirm-actions .btn{flex:1}
-
-/* Image URL Input */
-.img-url-input{display:flex;gap:8px;align-items:flex-start}
-.img-url-input input{flex:1}
-.img-url-input .btn{flex-shrink:0;padding:11px 16px}
-.img-preview-small{width:100%;max-height:150px;object-fit:contain;border-radius:8px;margin-top:8px;display:none;background:var(--pp)}
-.img-preview-small.v{display:block}
-
-/* Responsive */
-@media(max-width:600px){
-  .hdr-in{padding:10px 12px}
-  .cart-btn .clabel{display:none}
-  .hero{padding:36px 14px 28px}.hero h1{font-size:24px}
-  .mn{padding:12px}
-  .sh{padding:16px 14px}
-  .ss{padding:14px}
-  .cs{max-width:100vw}
-  .wl{display:none}
-  .br{flex-direction:column;align-items:stretch}
-  .br label{min-width:auto}
-  .br input{width:100%}
-  .api{flex-wrap:wrap}
-  .api-act{width:100%;justify-content:flex-end;margin-top:4px}
-}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--pl);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--p)}
-
-/* Empty state */
-.empty-state{text-align:center;padding:40px 20px;color:var(--tl)}
-.empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
-.empty-state p{font-size:14px;margin-bottom:4px}
-.empty-state small{font-size:12px}
-
-/* Stats */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px}
-.stat-card{background:var(--ppu);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--pp)}
-.stat-card .stat-num{font-size:28px;font-weight:800;color:var(--p)}
-.stat-card .stat-label{font-size:11px;color:var(--tl);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-
-/* Subcat tags */
-.subcat-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.subcat-tag{background:var(--pp);color:var(--pd);padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600}
-</style>
-</head>
-<body>
-
-<!-- ===== CATALOG APP ===== -->
-<div id="catalog-app">
-  <header class="hdr">
-    <div class="hdr-in">
-      <div class="logo-wrap">
-        <div class="logo-palm">
-          <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2C16 8 6 10 2 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C24 8 34 10 38 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C18 10 8 14 4 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C22 10 32 14 36 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C17 12 10 16 6 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C23 12 30 16 34 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C19 14 14 18 10 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C21 14 26 18 30 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <rect x="18.5" y="8" width="3" height="26" rx="1.5" fill="#BA6B82"/>
-          </svg>
-        </div>
-        <span class="logo-text">palmimport</span>
-      </div>
-      <div class="hdr-r">
-        <span class="badge">📍 Mar del Plata</span>
-        <button class="cart-btn" onclick="toggleCart()">
-          🛒 <span class="clabel">Carrito</span>
-          <span class="cart-cnt" id="ccnt">0</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <h1>✨ Catálogo PalmImport</h1>
-    <p>Body Splashes, Cremas y Gloss importados directo a vos</p>
-  </section>
-
-  <nav class="cnav" id="catNav"></nav>
-  <main class="mn" id="mn"></main>
-
-  <footer class="ftr">
-    <div class="logo-wrap" style="justify-content:center;margin-bottom:8px;opacity:.35">
-      <span class="logo-text" style="font-size:16px">palmimport</span>
-    </div>
-    <p>🌴 PalmImport © 2026 · Mar del Plata</p>
-  </footer>
-</div>
-
-<!-- ===== CART SIDEBAR ===== -->
-<div class="co" id="co" onclick="toggleCart()"></div>
-<div class="cs" id="cs">
-  <div class="cs-top">
-    <h3>🛒 Tu Pedido</h3>
-    <button class="cs-x" onclick="toggleCart()">✕</button>
-  </div>
-  <div class="cs-items" id="ci">
-    <div class="cs-empty" id="cempty">
-      <div class="ei">🛒</div>
-      <p>Tu carrito está vacío</p>
-      <p style="font-size:11px;margin-top:6px;color:var(--tl)">Tocá el botón + en los productos</p>
-    </div>
-  </div>
-  <div class="cs-bot" id="cb" style="display:none">
-    <div class="cs-tot"><span>Total</span><span class="ta" id="cta">$0</span></div>
-    <button class="wa-btn" onclick="sendWA()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Enviar pedido por WhatsApp
-    </button>
-    <button class="cl-btn" onclick="clearCart()">🗑️ Vaciar carrito</button>
-  </div>
-</div>
-
-<!-- WA FLOAT -->
-<div class="wf">
-  <div class="wl">¡Hacé tu pedido! 💬</div>
-  <a href="https://wa.me/5492234481625?text=Hola%20PalmImport%20🌴!" class="wb" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
-</div>
-
-<!-- TOAST -->
-<div class="tc" id="tc"></div>
-
-<!-- ===== IMAGE URL MODAL ===== -->
-<div class="mo" id="imgModal">
-  <div class="mc">
-    <h3>📷 Imagen del Producto</h3>
-    <p style="font-size:12px;color:var(--tl);margin-bottom:14px">Pegá el link de la imagen (ImgBB, Cloudinary, etc.)</p>
-    <div class="fg">
-      <label>URL de la imagen</label>
-      <input type="text" id="modalImgUrl" placeholder="https://i.ibb.co/.../imagen.jpg">
-    </div>
-    <img id="modalImgPreview" class="mpr" alt="Preview">
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <button class="btn btn-s btn-sm" onclick="previewModalImg()">👁️ Ver Preview</button>
-      <button class="btn btn-s btn-sm" onclick="document.getElementById('modalImgUrl').value='';document.getElementById('modalImgPreview').classList.remove('v')">🗑️ Limpiar</button>
-    </div>
-    <div class="fa">
-      <button class="btn btn-p" onclick="saveModalImg()">💾 Guardar URL</button>
-      <button class="btn btn-s" onclick="closeImgModal()">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== CONFIRM DIALOG ===== -->
-<div class="confirm-overlay" id="confirmOverlay">
-  <div class="confirm-box">
-    <h4 id="confirmTitle">¿Estás seguro?</h4>
-    <p id="confirmMsg">Esta acción no se puede deshacer.</p>
-    <div class="confirm-actions">
-      <button class="btn btn-s" onclick="closeConfirm()">Cancelar</button>
-      <button class="btn btn-d" id="confirmOk">Confirmar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== ADMIN APP ===== -->
-<div class="admin-app" id="adminApp">
-
-  <!-- LOGIN -->
-  <div class="adm-login" id="admLogin">
-    <div class="login-card">
-      <div class="logo-area">
-        <div class="logo-wrap" style="justify-content:center;margin-bottom:8px">
-          <div class="logo-palm">
-            <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:40px">
-              <path d="M20 2C16 8 6 10 2 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C24 8 34 10 38 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C18 10 8 14 4 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C22 10 32 14 36 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C17 12 10 16 6 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C23 12 30 16 34 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C19 14 14 18 10 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M20 2C21 14 26 18 30 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-              <rect x="18.5" y="8" width="3" height="26" rx="1.5" fill="#BA6B82"/>
-            </svg>
-          </div>
-          <span class="logo-text" style="font-size:26px">palmimport</span>
-        </div>
-      </div>
-      <h2>Panel de Administración</h2>
-      <p class="login-sub">Gestioná tu tienda de forma profesional</p>
-      <div class="login-error" id="loginError">❌ Usuario o contraseña incorrectos</div>
-      <div class="fg"><label>Usuario</label><input type="text" id="loginUser" placeholder="Ingresá tu usuario" autocomplete="username"></div>
-      <div class="fg"><label>Contraseña</label><input type="password" id="loginPass" placeholder="Ingresá tu contraseña" autocomplete="current-password"></div>
-      <button class="btn btn-p btn-full" onclick="doLogin()">🔓 Ingresar</button>
-    </div>
-  </div>
-
-  <!-- DASHBOARD -->
-  <div class="adm-dash" id="admDash">
-    <div class="adh">
-      <div class="logo-wrap">
-        <div class="logo-palm" style="width:20px;height:26px">
-          <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-            <path d="M20 2C16 8 6 10 2 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C24 8 34 10 38 16" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C18 10 8 14 4 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C22 10 32 14 36 20" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C17 12 10 16 6 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C23 12 30 16 34 22" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C19 14 14 18 10 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M20 2C21 14 26 18 30 24" stroke="#BA6B82" stroke-width="2.5" stroke-linecap="round"/>
-            <rect x="18.5" y="8" width="3" height="26" rx="1.5" fill="#BA6B82"/>
-          </svg>
-        </div>
-        <span class="logo-text" style="font-size:15px">palmimport</span>
-      </div>
-      <div class="adh-r">
-        <span class="ub">👤 lucapalm</span>
-        <button class="alb" onclick="doLogout()">🚪 Salir</button>
-      </div>
-    </div>
-
-    <nav class="atn"><div class="atn-in">
-      <button class="at act" onclick="showATab('dashboard')">📊 Dashboard</button>
-      <button class="at" onclick="showATab('products')">📦 Productos</button>
-      <button class="at" onclick="showATab('categories')">🏷️ Categorías</button>
-      <button class="at" onclick="showATab('add')">➕ Agregar</button>
-      <button class="at" onclick="showATab('supplier')">📋 Proveedor</button>
-      <button class="at" onclick="showATab('prices')">💰 Precios</button>
-      <button class="at" onclick="showATab('export')">📥 Exportar</button>
-    </div></nav>
-
-    <div class="amn">
-
-      <!-- DASHBOARD -->
-      <div class="as v" id="tabDashboard">
-        <div class="ac">
-          <h3>📊 Resumen de tu Tienda</h3>
-          <p class="as2">Vista general de tu catálogo PalmImport</p>
-          <div class="stats-row" id="statsRow"></div>
-        </div>
-        <div class="ac">
-          <h3>⚡ Accesos Rápidos</h3>
-          <p class="as2">Gestioná tu tienda de forma eficiente</p>
-          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
-            <button class="btn btn-p" onclick="showATab('add')">➕ Nuevo Producto</button>
-            <button class="btn btn-bl" onclick="showATab('supplier')">📋 Importar Proveedor</button>
-            <button class="btn btn-w" onclick="showATab('prices')">💰 Actualizar Precios</button>
-            <button class="btn btn-s" onclick="showATab('export')">📥 Exportar Código</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- PRODUCTS LIST -->
-      <div class="as" id="tabProducts">
-        <div class="ac">
-          <h3>📦 Todos los Productos</h3>
-          <p class="as2">Editá, eliminá o cambiá la URL de la imagen. Clic en un producto para editarlo rápido.</p>
-          <div class="sr"><input type="text" class="sb2" placeholder="Buscar producto por nombre..." id="adminSearch" oninput="renderAdminList()"></div>
-          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-            <select id="filterCat" onchange="renderAdminList()" style="padding:8px 12px;border:2px solid var(--pp);border-radius:8px;font-family:inherit;font-size:12px;background:var(--ppu)">
-              <option value="all">📂 Todas las categorías</option>
-            </select>
-          </div>
-          <div class="apl" id="adminProdList"></div>
-        </div>
-      </div>
-
-      <!-- CATEGORIES -->
-      <div class="as" id="tabCategories">
-        <div class="ac">
-          <h3>🏷️ Gestión de Categorías</h3>
-          <p class="as2">Agregá, editá o eliminá categorías y sub-categorías de tu tienda</p>
-          <div id="catManager"></div>
-          <div style="margin-top:20px;border-top:1px solid var(--pp);padding-top:18px">
-            <h4 style="font-size:16px;color:var(--pd);margin-bottom:12px">➕ Agregar Nueva Categoría</h4>
-            <div class="frow">
-              <div class="fg"><label>Nombre de la categoría</label><input type="text" id="newCatName" placeholder="Ej: Perfumes"></div>
-              <div class="fg"><label>Icono (emoji)</label><input type="text" id="newCatIcon" placeholder="🌸" maxlength="4"></div>
-            </div>
-            <div class="fg"><label>Sub-categorías (separadas por coma)</label><input type="text" id="newCatSubs" placeholder="Ej: Clásico, Shimmer, Edición Limitada"></div>
-            <button class="btn btn-p" onclick="addCategory()">✅ Agregar Categoría</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADD / EDIT PRODUCT -->
-      <div class="as" id="tabAdd">
-        <div class="ac">
-          <h3 id="formTitle">➕ Agregar Nuevo Producto</h3>
-          <p class="as2">Completá los datos del producto</p>
-          <div class="frow">
-            <div class="fg"><label>Nombre del producto *</label><input type="text" id="prodName" placeholder="Ej: Bare Vanilla"></div>
-            <div class="fg"><label>Categoría principal *</label><select id="prodCat"></select></div>
-          </div>
-          <div class="frow">
-            <div class="fg"><label>Sub-categoría *</label><select id="prodSub"></select></div>
-            <div class="fg"><label>Precio ($) *</label><input type="number" id="prodPrice" placeholder="38000"></div>
-          </div>
-          <div class="fg">
-            <label>Imagen del producto (URL externa)</label>
-            <div class="img-url-input">
-              <input type="text" id="prodImgUrl" placeholder="Pegá el link de ImgBB, Cloudinary, etc.">
-              <button class="btn btn-s btn-sm" onclick="previewProdImg()">👁️ Ver</button>
-            </div>
-            <img id="formImgPreview" class="img-preview-small" alt="Preview">
-            <small style="color:var(--tl);font-size:11px;display:block;margin-top:6px">💡 Tip: Subí tus fotos a <a href="https://imgbb.com" target="_blank" style="color:var(--p)">ImgBB.com</a> (gratis) y copiá el link directo de la imagen.</small>
-          </div>
-          <input type="hidden" id="editProdId" value="">
-          <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn btn-p" style="flex:1" onclick="saveProduct()">💾 Guardar Producto</button>
-            <button class="btn btn-s" onclick="resetForm()">↩️ Limpiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SUPPLIER -->
-      <div class="as" id="tabSupplier">
-        <div class="ac">
-          <h3>📋 Importar desde Proveedor</h3>
-          <p class="as2">Subí un archivo .txt o .csv. El sistema extraerá automáticamente nombre y precio.</p>
-          <div style="background:var(--ppu);padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:12px;color:var(--tm)">
-            📝 <strong>Formato esperado:</strong> Una línea por producto: <code style="background:var(--pp);padding:2px 6px;border-radius:4px">Nombre, Precio</code> (separados por coma, tab o punto y coma)
-          </div>
-          <div class="ua" onclick="document.getElementById('supplierFile').click()">
-            <div class="ui2">📄</div>
-            <p>Click para seleccionar archivo</p>
-            <small>Formatos: .txt, .csv, .tsv</small>
-          </div>
-          <input type="file" id="supplierFile" accept=".txt,.csv,.tsv" style="display:none" onchange="parseSupplierFile(this)">
-          <div id="parsedProducts" style="margin-top:16px"></div>
-          <div id="supplierActions" style="display:none;margin-top:16px;display:flex;gap:10px;align-items:center">
-            <button class="btn btn-p" style="flex:1" onclick="importSupplierProducts()">📥 Importar Productos</button>
-            <button class="btn btn-s" onclick="clearSupplier()">Descartar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- BULK PRICES -->
-      <div class="as" id="tabPrices">
-        <div class="ac">
-          <h3>💰 Actualización Masiva de Precios</h3>
-          <p class="as2">Modificá precios por categoría/sub-categoría de forma masiva</p>
-          <div id="bulkPriceList"></div>
-          <div style="margin-top:20px">
-            <button class="btn btn-p" onclick="applyBulkPrices()">✅ Aplicar Cambios</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- EXPORT -->
-      <div class="as" id="tabExport">
-        <div class="ac">
-          <h3>📥 Exportar Código Actualizado</h3>
-          <p class="as2">Copiá este código y reemplazá la variable <code style="background:var(--pp);padding:2px 6px;border-radius:4px">DEFAULT_PRODUCTS</code> en tu archivo HTML para que los cambios sean permanentes.</p>
-          <div style="background:var(--warnl);padding:14px 18px;border-radius:12px;margin-bottom:18px;font-size:12px;color:var(--or);display:flex;align-items:flex-start;gap:10px">
-            <span style="font-size:20px;flex-shrink:0">⚠️</span>
-            <div>
-              <strong>Instrucciones:</strong><br>
-              1. Copiá el código que aparece abajo<br>
-              2. Abrí tu archivo HTML en un editor de texto<br>
-              3. Buscá <code>var DEFAULT_PRODUCTS = [</code> y reemplazá todo lo que está entre <code>[ ]</code><br>
-              4. Guardá y subí el archivo
-            </div>
-          </div>
-          <button class="btn btn-p" onclick="generateExportCode()" style="margin-bottom:14px">🔄 Generar Código Actualizado</button>
-          <div class="export-area" id="exportArea" style="display:none">
-            <button class="btn btn-bl btn-sm copy-btn" onclick="copyExportCode()">📋 Copiar</button>
-            <textarea id="exportCode" readonly></textarea>
-          </div>
-          <div style="margin-top:16px">
-            <button class="btn btn-s" onclick="downloadExportFile()">💾 Descargar archivo .json</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<script>
-/* ================================================================
-   PALMIMPORT — Professional Store Manager (URL Images)
-   ================================================================ */
-
-// ===== DEFAULT DATA =====
-var DEFAULT_CATEGORIES = [
-  {id:'cat_splashes',name:'Body Splash',icon:'🌴',subs:[
-    {id:'classic',name:'Clásicos'},
-    {id:'shimmer',name:'Shimmer'},
-    {id:'limited',name:'Ediciones Limitadas'},
-    {id:'vacation',name:'Edición Vacation'}
-  ]},
-  {id:'cat_cremas',name:'Cremas',icon:'🧴',subs:[
-    {id:'classic',name:'Clásicas'},
-    {id:'shimmer',name:'Shimmer'},
-    {id:'limited',name:'Edición Limitada'}
-  ]},
-  {id:'cat_gloss',name:'Gloss',icon:'💄',subs:[
-    {id:'gloss',name:'Gloss'}
-  ]}
-];
-
-var DEFAULT_PRODUCTS = [
-  {id:'s01',name:'Bare Vanilla',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s02',name:'Velvet Petals',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s03',name:'Pure Seduction',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:true},
-  {id:'s04',name:'Love Spell',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s05',name:'Aqua Kiss',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s06',name:'Amber Romance',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s07',name:'Strawberries & Champagne',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s08',name:'Romantic',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s09',name:'Temptation',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s10',name:'Midnight Bloom',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s11',name:'Rush',cat:'cat_splashes',sub:'classic',price:38000,img:'',featured:false},
-  {id:'s12',name:'Bare Vanilla Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s13',name:'Love Spell Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s14',name:'Pure Seduction Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s15',name:'Velvet Petals Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s16',name:'Coconut Passion Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s17',name:'Aqua Kiss Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s18',name:'Amber Romance Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s19',name:'Temptation Shimmer',cat:'cat_splashes',sub:'shimmer',price:40000,img:''},
-  {id:'s20',name:'Bare Vanilla Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s21',name:'Velvet Petals Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s22',name:'Pure Seduction Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s23',name:'Pure Seduction Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s24',name:'Love Spell Starlit',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s25',name:'Love Spell Brulee',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s26',name:'Love Spell Bliss',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s27',name:'Wild Neroli',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s28',name:'Santal Berry Silk',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s29',name:'Ginger Apple',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s30',name:'Vanilla Lace',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s31',name:'Coastal Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s32',name:'Sundrenched Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s33',name:'Canyon Blooms',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s34',name:'Warm Vanilla Woods',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s35',name:'Golden Saffron Amber',cat:'cat_splashes',sub:'limited',price:40000,img:''},
-  {id:'s36',name:'Bare Vanilla (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
-  {id:'s37',name:'Love Spell (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
-  {id:'s38',name:'Velvet Petals (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
-  {id:'s39',name:'Pure Seduction (Vacation)',cat:'cat_splashes',sub:'vacation',price:40000,img:''},
-  {id:'c01',name:'Coconut Passion',cat:'cat_cremas',sub:'classic',price:37000,img:''},
-  {id:'c02',name:'Strawberries & Champagne',cat:'cat_cremas',sub:'classic',price:37000,img:''},
-  {id:'c03',name:'Velvet Petals',cat:'cat_cremas',sub:'classic',price:37000,img:''},
-  {id:'c04',name:'Amber Romance',cat:'cat_cremas',sub:'classic',price:37000,img:''},
-  {id:'c05',name:'Aqua Kiss',cat:'cat_cremas',sub:'classic',price:37000,img:''},
-  {id:'c06',name:'Pure Seduction Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c07',name:'Coconut Passion Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c08',name:'Midnight Bloom Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c09',name:'Temptation Shimmer',cat:'cat_cremas',sub:'shimmer',price:38000,img:''},
-  {id:'c10',name:'Cashmere Fleur',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c11',name:'Pear Glace (Archives)',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c12',name:'Cabana in the Sand',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c13',name:'Cheers Again',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c14',name:'Cherry Elixir N°33',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c15',name:'Island Away',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c16',name:'Moon Spiced Apple',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c17',name:'Nocturnal Magic',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c18',name:'Poolside Service',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c19',name:'Desert Sky',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c20',name:'Early Morning Sun',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c21',name:'Falling Water',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'c22',name:'Glowing Places',cat:'cat_cremas',sub:'limited',price:37500,img:''},
-  {id:'g01',name:'Gloss PalmImport',cat:'cat_gloss',sub:'gloss',price:26600,img:''}
-];
-
-// ===== STATE =====
-var categories = [];
-var products = [];
-var cart = [];
-var supplierParsed = [];
-var modalUploadId = null;
-var confirmCallback = null;
-
-// ===== PERSISTENCE =====
-function loadCategories() {
-  try {
-    var raw = localStorage.getItem('pi_categories');
-    if (raw) categories = JSON.parse(raw);
-    else categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
-  } catch(e) { categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES)); }
-}
-
-function loadProducts() {
-  try {
-    var raw = localStorage.getItem('pi_products');
-    if (raw) {
-      products = JSON.parse(raw);
-      if (!products.length) products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-    } else {
-      products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-    }
-  } catch(e) { products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)); }
-}
-
-function saveCategories() { try { localStorage.setItem('pi_categories', JSON.stringify(categories)); } catch(e) {} }
-function saveProducts() { try { localStorage.setItem('pi_products', JSON.stringify(products)); } catch(e) {} }
-function loadCart() { try { var r=localStorage.getItem('pi_cart'); cart=r?JSON.parse(r):[]; } catch(e) { cart=[]; } }
-function saveCart() { try { localStorage.setItem('pi_cart', JSON.stringify(cart)); } catch(e) {} }
-
-// ===== HELPERS =====
-function fmt(n) { return '$' + n.toLocaleString('es-AR'); }
-function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
-
-function getCat(catId) { return categories.find(function(c){return c.id===catId;}); }
-function getCatName(catId) { var c=getCat(catId); return c?c.name:catId; }
-function getCatIcon(catId) { var c=getCat(catId); return c?c.icon:'📦'; }
-function getSubName(catId, subId) {
-  var c=getCat(catId); if(!c) return subId;
-  var s=c.subs.find(function(x){return x.id===subId;}); return s?s.name:subId;
-}
-
-function showToast(msg, type) {
-  var container = document.getElementById('tc');
-  var el = document.createElement('div');
-  el.className = 'tst ' + (type || '');
-  el.textContent = msg;
-  container.appendChild(el);
-  setTimeout(function() {
-    el.style.opacity='0';el.style.transform='translateX(40px)';el.style.transition='all .3s';
-    setTimeout(function(){el.remove();},300);
-  }, 2500);
-}
-
-// ===== CONFIRM DIALOG =====
-function showConfirm(title, msg, cb) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').textContent = msg;
-  document.getElementById('confirmOverlay').classList.add('o');
-  confirmCallback = cb;
-  document.getElementById('confirmOk').onclick = function() {
-    closeConfirm();
-    if (confirmCallback) confirmCallback();
-  };
-}
-
-function closeConfirm() {
-  document.getElementById('confirmOverlay').classList.remove('o');
-  confirmCallback = null;
-}
-
-// ===== RENDER CATALOG =====
-function renderCatalog() {
-  renderCatNav();
-  renderSections();
-}
-
-function renderCatNav() {
-  var nav = document.getElementById('catNav');
-  var html = '<div class="cnav-in">';
-  html += '<button class="nb act" onclick="showSec(\'all\')">🏪 Todo</button>';
-  for (var i = 0; i < categories.length; i++) {
-    html += '<button class="nb" onclick="showSec(\'' + categories[i].id + '\')">' + categories[i].icon + ' ' + categories[i].name + '</button>';
+[
+  {
+    "id": "s01",
+    "name": "Bare Vanilla",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": true
+  },
+  {
+    "id": "s02",
+    "name": "Velvet Petals",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": true
+  },
+  {
+    "id": "s03",
+    "name": "Pure Seduction",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": true
+  },
+  {
+    "id": "s04",
+    "name": "Love Spell",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s05",
+    "name": "Aqua Kiss",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s06",
+    "name": "Amber Romance",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s07",
+    "name": "Strawberries & Champagne",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s08",
+    "name": "Romantic",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s09",
+    "name": "Temptation",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s10",
+    "name": "Midnight Bloom",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s11",
+    "name": "Rush",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 38000,
+    "img": "",
+    "featured": false
+  },
+  {
+    "id": "s12",
+    "name": "Bare Vanilla Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s13",
+    "name": "Love Spell Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s14",
+    "name": "Pure Seduction Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s15",
+    "name": "Velvet Petals Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s16",
+    "name": "Coconut Passion Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s17",
+    "name": "Aqua Kiss Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s18",
+    "name": "Amber Romance Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s19",
+    "name": "Temptation Shimmer",
+    "cat": "cat_splashes",
+    "sub": "shimmer",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s20",
+    "name": "Bare Vanilla Bliss",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s21",
+    "name": "Velvet Petals Starlit",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s22",
+    "name": "Pure Seduction Starlit",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s23",
+    "name": "Pure Seduction Bliss",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s24",
+    "name": "Love Spell Starlit",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s25",
+    "name": "Love Spell Brulee",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s26",
+    "name": "Love Spell Bliss",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s27",
+    "name": "Wild Neroli",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s28",
+    "name": "Santal Berry Silk",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s29",
+    "name": "Ginger Apple",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s30",
+    "name": "Vanilla Lace",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s31",
+    "name": "Coastal Blooms",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s32",
+    "name": "Sundrenched Blooms",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s33",
+    "name": "Canyon Blooms",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s34",
+    "name": "Warm Vanilla Woods",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s35",
+    "name": "Golden Saffron Amber",
+    "cat": "cat_splashes",
+    "sub": "limited",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s36",
+    "name": "Bare Vanilla (Vacation)",
+    "cat": "cat_splashes",
+    "sub": "vacation",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s37",
+    "name": "Love Spell (Vacation)",
+    "cat": "cat_splashes",
+    "sub": "vacation",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s38",
+    "name": "Velvet Petals (Vacation)",
+    "cat": "cat_splashes",
+    "sub": "vacation",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "s39",
+    "name": "Pure Seduction (Vacation)",
+    "cat": "cat_splashes",
+    "sub": "vacation",
+    "price": 40000,
+    "img": ""
+  },
+  {
+    "id": "c01",
+    "name": "Coconut Passion",
+    "cat": "cat_cremas",
+    "sub": "classic",
+    "price": 37000,
+    "img": ""
+  },
+  {
+    "id": "c02",
+    "name": "Strawberries & Champagne",
+    "cat": "cat_cremas",
+    "sub": "classic",
+    "price": 37000,
+    "img": ""
+  },
+  {
+    "id": "c03",
+    "name": "Velvet Petals",
+    "cat": "cat_cremas",
+    "sub": "classic",
+    "price": 37000,
+    "img": ""
+  },
+  {
+    "id": "c04",
+    "name": "Amber Romance",
+    "cat": "cat_cremas",
+    "sub": "classic",
+    "price": 37000,
+    "img": ""
+  },
+  {
+    "id": "c05",
+    "name": "Aqua Kiss",
+    "cat": "cat_cremas",
+    "sub": "classic",
+    "price": 37000,
+    "img": ""
+  },
+  {
+    "id": "c06",
+    "name": "Pure Seduction Shimmer",
+    "cat": "cat_cremas",
+    "sub": "shimmer",
+    "price": 38000,
+    "img": ""
+  },
+  {
+    "id": "c07",
+    "name": "Coconut Passion Shimmer",
+    "cat": "cat_cremas",
+    "sub": "shimmer",
+    "price": 38000,
+    "img": ""
+  },
+  {
+    "id": "c08",
+    "name": "Midnight Bloom Shimmer",
+    "cat": "cat_cremas",
+    "sub": "shimmer",
+    "price": 38000,
+    "img": ""
+  },
+  {
+    "id": "c09",
+    "name": "Temptation Shimmer",
+    "cat": "cat_cremas",
+    "sub": "shimmer",
+    "price": 38000,
+    "img": ""
+  },
+  {
+    "id": "c10",
+    "name": "Cashmere Fleur",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c11",
+    "name": "Pear Glace (Archives)",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c12",
+    "name": "Cabana in the Sand",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c13",
+    "name": "Cheers Again",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c14",
+    "name": "Cherry Elixir N°33",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c15",
+    "name": "Island Away",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c16",
+    "name": "Moon Spiced Apple",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c17",
+    "name": "Nocturnal Magic",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c18",
+    "name": "Poolside Service",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c19",
+    "name": "Desert Sky",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c20",
+    "name": "Early Morning Sun",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c21",
+    "name": "Falling Water",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "c22",
+    "name": "Glowing Places",
+    "cat": "cat_cremas",
+    "sub": "limited",
+    "price": 37500,
+    "img": ""
+  },
+  {
+    "id": "g01",
+    "name": "Gloss VS",
+    "cat": "cat_splashes",
+    "sub": "classic",
+    "price": 26600,
+    "img": "https://res.cloudinary.com/dtynxbthb/image/upload/f_auto,q_auto/WhatsApp_Image_2026-04-06_at_18.10.57_yoaqjg"
   }
-  html += '</div>';
-  nav.innerHTML = html;
-}
-
-function renderSections() {
-  var mn = document.getElementById('mn');
-  var html = '';
-
-  // ALL section
-  html += '<div id="sec-all" class="sec v">';
-  for (var ci = 0; ci < categories.length; ci++) {
-    var cat = categories[ci];
-    var catProducts = products.filter(function(p) { return p.cat === cat.id; });
-    if (!catProducts.length) continue;
-
-    html += '<div class="sh" style="margin-bottom:14px">';
-    html += '<h2>' + cat.icon + ' ' + cat.name + '</h2>';
-    html += '<p class="sub">' + catProducts.length + ' producto' + (catProducts.length !== 1 ? 's' : '') + '</p>';
-    html += '</div>';
-
-    for (var si = 0; si < cat.subs.length; si++) {
-      var sub = cat.subs[si];
-      var subProducts = catProducts.filter(function(p) { return p.sub === sub.id; });
-      if (!subProducts.length) continue;
-
-      var featured = products.filter(function(p) { return p.featured && p.cat === cat.id && p.sub === sub.id; }).map(function(p) { return p.name; });
-
-      html += '<div class="ss">';
-      html += '<div class="ss-h"><div class="ss-i cl"></div><span class="ss-t">' + sub.name + '</span>';
-
-      if (subProducts.length) {
-        html += '<span class="ss-p">Desde ' + fmt(subProducts[0].price) + '</span>';
-      }
-
-      html += '</div><div class="pg">';
-
-      for (var pi = 0; pi < subProducts.length; pi++) {
-        var p = subProducts[pi];
-        var inCart = cart.find(function(c) { return c.id === p.id; });
-        var isFeatured = featured.indexOf(p.name) >= 0;
-        var imgHtml = p.img ? '<img class="pc-img" src="' + p.img + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="pd"></span>';
-
-        html += '<div class="pc ' + (inCart ? 'ic' : '') + '" data-pid="' + p.id + '">' +
-          imgHtml +
-          '<span class="pn">' + p.name + '</span>' +
-          (isFeatured ? '<span class="pf">🔥</span>' : '') +
-          '<button class="add-btn" onclick="event.stopPropagation();addToCart(\'' + p.id + '\')">' + (inCart ? '✓' : '+') + '</button>' +
-          '</div>';
-      }
-
-      html += '</div></div>';
-    }
-
-    if (cat.id === 'cat_splashes') {
-      html += '<div class="sf"><span class="sb cl2">⏳ Cerrando pedido</span><span style="font-size:11px;color:var(--tl)">💬 Los más pedidos te los recomiendo 🙌</span></div>';
-    } else if (cat.id === 'cat_cremas') {
-      html += '<div class="sf"><span class="sb op">🛍️ Pedido abierto</span><span style="font-size:11px;color:var(--tl)">💬 Consultá disponibilidad 🙌</span></div>';
-    } else if (cat.id === 'cat_gloss') {
-      html += '<div class="sf" style="justify-content:center"><span class="sb ls">⏳ Stock limitado</span></div>';
-    }
-  }
-  html += '</div>';
-
-  // Individual category sections
-  for (var ci2 = 0; ci2 < categories.length; ci2++) {
-    var cat2 = categories[ci2];
-    var secId = 'sec-' + cat2.id;
-    var catProds = products.filter(function(p) { return p.cat === cat2.id; });
-
-    html += '<div id="' + secId + '" class="sec">';
-
-    html += '<div class="sh">';
-    html += '<h2>' + cat2.icon + ' ' + cat2.name + '</h2>';
-    html += '<p class="sub">' + catProds.length + ' producto' + (catProds.length !== 1 ? 's' : '') + '</p>';
-    html += '</div>';
-
-    for (var si2 = 0; si2 < cat2.subs.length; si2++) {
-      var sub2 = cat2.subs[si2];
-      var subProds2 = catProds.filter(function(p) { return p.sub === sub2.id; });
-      if (!subProds2.length) continue;
-
-      var feat2 = products.filter(function(p) { return p.featured && p.cat === cat2.id && p.sub === sub2.id; }).map(function(p) { return p.name; });
-
-      html += '<div class="ss">';
-      html += '<div class="ss-h"><div class="ss-i cl"></div><span class="ss-t">' + sub2.name + '</span>';
-      if (subProds2.length) html += '<span class="ss-p">Desde ' + fmt(subProds2[0].price) + '</span>';
-      html += '</div><div class="pg">';
-
-      for (var pj = 0; pj < subProds2.length; pj++) {
-        var prod2 = subProds2[pj];
-        var inCart2 = cart.find(function(c) { return c.id === prod2.id; });
-        var isFeat2 = feat2.indexOf(prod2.name) >= 0;
-        var imgHtml2 = prod2.img ? '<img class="pc-img" src="' + prod2.img + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="pd"></span>';
-
-        html += '<div class="pc ' + (inCart2 ? 'ic' : '') + '">' +
-          imgHtml2 +
-          '<span class="pn">' + prod2.name + '</span>' +
-          (isFeat2 ? '<span class="pf">🔥</span>' : '') +
-          '<button class="add-btn" onclick="event.stopPropagation();addToCart(\'' + prod2.id + '\')">' + (inCart2 ? '✓' : '+') + '</button>' +
-          '</div>';
-      }
-
-      html += '</div></div>';
-    }
-
-    if (cat2.id === 'cat_gloss') {
-      html = html.replace('<div class="sh">', '<div class="gs"><span class="gb">🔥 Oferta</span><h2>💄 Gloss</h2><p>Variedad disponible · Ideal para sumar al pedido o regalar</p><div class="gp">$26.600</div><div class="gpo">En MDP hasta $32.500</div><p style="font-size:12px;opacity:.7;margin-top:6px">✨ Escribime y te paso opciones disponibles</p></div><div class="sh">');
-    }
-
-    html += '</div>';
-  }
-
-  mn.innerHTML = html;
-}
-
-function showSec(id) {
-  var secs = document.querySelectorAll('.sec');
-  for (var i = 0; i < secs.length; i++) secs[i].classList.remove('v');
-  var btns = document.querySelectorAll('.nb');
-  for (var b = 0; b < btns.length; b++) btns[b].classList.remove('act');
-
-  var el = document.getElementById('sec-' + id);
-  if (el) el.classList.add('v');
-
-  var allBtns = document.querySelectorAll('.nb');
-  if (id === 'all' && allBtns[0]) allBtns[0].classList.add('act');
-
-  var catIdx = -1;
-  for (var c = 0; c < categories.length; c++) {
-    if (categories[c].id === id) { catIdx = c + 1; break; }
-  }
-  if (catIdx >= 0 && allBtns[catIdx]) allBtns[catIdx].classList.add('act');
-
-  window.scrollTo({top: 180, behavior: 'smooth'});
-}
-
-// ===== CART =====
-function addToCart(productId) {
-  var existing = cart.find(function(c) { return c.id === productId; });
-  if (existing) { existing.qty++; }
-  else { cart.push({id: productId, qty: 1}); }
-  saveCart();
-  updateCartUI();
-  renderSections();
-  showToast('✅ Agregado al carrito', 'su');
-}
-
-function removeFromCart(productId) {
-  cart = cart.filter(function(c) { return c.id !== productId; });
-  saveCart();
-  updateCartUI();
-  renderSections();
-}
-
-function updateQty(productId, delta) {
-  var item = cart.find(function(c) { return c.id === productId; });
-  if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) cart = cart.filter(function(c) { return c.id !== productId; });
-  saveCart();
-  updateCartUI();
-  renderSections();
-}
-
-function clearCart() {
-  showConfirm('¿Vaciar carrito?', 'Se eliminarán todos los productos del carrito.', function() {
-    cart = [];
-    saveCart();
-    updateCartUI();
-    renderSections();
-    showToast('🗑️ Carrito vaciado', '');
-  });
-}
-
-function updateCartUI() {
-  var cntEl = document.getElementById('ccnt');
-  var totalItems = 0;
-  for (var i = 0; i < cart.length; i++) totalItems += cart[i].qty;
-  cntEl.textContent = totalItems;
-  cntEl.classList.toggle('show', totalItems > 0);
-  if (totalItems > 0) {
-    cntEl.classList.add('bump');
-    setTimeout(function() { cntEl.classList.remove('bump'); }, 300);
-  }
-
-  var ci = document.getElementById('ci');
-  var cb = document.getElementById('cb');
-
-  if (!cart.length) {
-    cb.style.display = 'none';
-    ci.innerHTML = '<div class="cs-empty"><div class="ei">🛒</div><p>Tu carrito está vacío</p><p style="font-size:11px;margin-top:6px;color:var(--tl)">Tocá el botón + en los productos</p></div>';
-    return;
-  }
-
-  cb.style.display = 'block';
-  var html = '', total = 0;
-
-  for (var j = 0; j < cart.length; j++) {
-    var prod = products.find(function(p) { return p.id === cart[j].id; });
-    if (!prod) continue;
-    var sub = prod.price * cart[j].qty;
-    total += sub;
-    var catL = getCatName(prod.cat);
-
-    html += '<div class="cs-item">' +
-      '<div class="cs-item-in"><div class="cs-item-n">' + prod.name + '</div><div class="cs-item-c">' + catL + ' · ' + fmt(prod.price) + '</div></div>' +
-      '<div class="cs-item-q"><button class="qb" onclick="updateQty(\'' + prod.id + '\',-1)">−</button><span class="qn">' + cart[j].qty + '</span><button class="qb" onclick="updateQty(\'' + prod.id + '\',1)">+</button></div>' +
-      '<div class="cs-item-p">' + fmt(sub) + '</div>' +
-      '<button class="cs-item-r" onclick="removeFromCart(\'' + prod.id + '\')">✕</button>' +
-      '</div>';
-  }
-
-  ci.innerHTML = html;
-  document.getElementById('cta').textContent = fmt(total);
-}
-
-function toggleCart() {
-  document.getElementById('co').classList.toggle('o');
-  document.getElementById('cs').classList.toggle('o');
-  document.body.style.overflow = document.getElementById('cs').classList.contains('o') ? 'hidden' : '';
-}
-
-function sendWA() {
-  if (!cart.length) return;
-  var msg = '🌴 *Pedido PalmImport*\n\n';
-  var total = 0;
-  for (var i = 0; i < cart.length; i++) {
-    var prod = products.find(function(p) { return p.id === cart[i].id; });
-    if (!prod) continue;
-    var sub = prod.price * cart[i].qty;
-    total += sub;
-    msg += '• ' + prod.name + ' x' + cart[i].qty + ' — ' + fmt(sub) + '\n';
-  }
-  msg += '\n💰 *Total: ' + fmt(total) + '*\n\n¡Gracias! 🙌';
-  window.open('https://wa.me/5492234481625?text=' + encodeURIComponent(msg), '_blank');
-}
-
-// ===== IMAGE URL MODAL =====
-function openImgModal(productId) {
-  modalUploadId = productId;
-  var prod = products.find(function(p) { return p.id === productId; });
-  var preview = document.getElementById('modalImgPreview');
-  var urlInput = document.getElementById('modalImgUrl');
-
-  if (prod && prod.img) {
-    urlInput.value = prod.img;
-    preview.src = prod.img;
-    preview.classList.add('v');
-  } else {
-    urlInput.value = '';
-    preview.src = '';
-    preview.classList.remove('v');
-  }
-  document.getElementById('imgModal').classList.add('o');
-}
-
-function closeImgModal() {
-  document.getElementById('imgModal').classList.remove('o');
-  modalUploadId = null;
-}
-
-function previewModalImg() {
-  var url = document.getElementById('modalImgUrl').value.trim();
-  var preview = document.getElementById('modalImgPreview');
-  if (url) {
-    preview.src = url;
-    preview.classList.add('v');
-    preview.onerror = function() { preview.classList.remove('v'); };
-  } else {
-    preview.src = '';
-    preview.classList.remove('v');
-  }
-}
-
-function saveModalImg() {
-  if (!modalUploadId) return;
-  var url = document.getElementById('modalImgUrl').value.trim();
-  for (var i = 0; i < products.length; i++) {
-    if (products[i].id === modalUploadId) {
-      products[i].img = url;
-      saveProducts();
-      renderAdminList();
-      showToast('📷 Imagen actualizada', 'su');
-      break;
-    }
-  }
-  closeImgModal();
-}
-
-// ===== ADMIN ROUTING =====
-function checkRoute() {
-  var hash = window.location.hash;
-  if (hash === '#/admin' || hash === '#/admin/') showAdminApp();
-  else hideAdminApp();
-}
-
-function showAdminApp() {
-  document.getElementById('catalog-app').style.display = 'none';
-  document.getElementById('adminApp').style.display = 'block';
-  document.getElementById('adminApp').classList.add('v');
-
-  if (sessionStorage.getItem('pi_admin') === 'true') {
-    document.getElementById('admLogin').style.display = 'none';
-    document.getElementById('admDash').style.display = 'block';
-    document.getElementById('admDash').classList.add('v');
-    initAdmin();
-  } else {
-    document.getElementById('admLogin').style.display = 'flex';
-    document.getElementById('admDash').style.display = 'none';
-    document.getElementById('admDash').classList.remove('v');
-  }
-}
-
-function hideAdminApp() {
-  document.getElementById('catalog-app').style.display = 'block';
-  document.getElementById('adminApp').style.display = 'none';
-  document.getElementById('adminApp').classList.remove('v');
-  renderCatalog();
-}
-
-// ===== ADMIN LOGIN =====
-function doLogin() {
-  var user = document.getElementById('loginUser').value.trim();
-  var pass = document.getElementById('loginPass').value.trim();
-  if (user === 'lucapalm' && pass === 'MemoPalm2011') {
-    sessionStorage.setItem('pi_admin', 'true');
-    document.getElementById('loginError').style.display = 'none';
-    document.getElementById('admLogin').style.display = 'none';
-    document.getElementById('admDash').style.display = 'block';
-    document.getElementById('admDash').classList.add('v');
-    initAdmin();
-    showToast('✅ ¡Bienvenido, Luca!', 'su');
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
-}
-
-function doLogout() {
-  sessionStorage.removeItem('pi_admin');
-  window.location.hash = '';
-  hideAdminApp();
-  showToast('👋 Sesión cerrada', '');
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    var lu = document.getElementById('loginUser');
-    var lp = document.getElementById('loginPass');
-    if (document.activeElement === lu) { lp.focus(); return; }
-    if (document.activeElement === lp) { doLogin(); return; }
-  }
-});
-
-// ===== ADMIN INIT =====
-function initAdmin() {
-  loadCategories();
-  loadProducts();
-  renderStats();
-  renderAdminList();
-  renderCatManager();
-  populateCatSelects();
-  renderBulkPrices();
-}
-
-function showATab(tab) {
-  var sections = document.querySelectorAll('.as');
-  for (var i = 0; i < sections.length; i++) sections[i].classList.remove('v');
-  var tabs = document.querySelectorAll('.at');
-  for (var t = 0; t < tabs.length; t++) tabs[t].classList.remove('act');
-
-  var map = {dashboard:'tabDashboard',products:'tabProducts',categories:'tabCategories',add:'tabAdd',supplier:'tabSupplier',prices:'tabPrices',export:'tabExport'};
-  var mapIdx = {dashboard:0,products:1,categories:2,add:3,supplier:4,prices:5,export:6};
-
-  document.getElementById(map[tab]).classList.add('v');
-  if (tabs[mapIdx[tab]]) tabs[mapIdx[tab]].classList.add('act');
-
-  if (tab === 'dashboard') renderStats();
-  if (tab === 'products') { populateFilterCat(); renderAdminList(); }
-  if (tab === 'categories') renderCatManager();
-  if (tab === 'add') { populateCatSelects(); }
-  if (tab === 'prices') renderBulkPrices();
-}
-
-// ===== DASHBOARD STATS =====
-function renderStats() {
-  var row = document.getElementById('statsRow');
-  var totalProducts = products.length;
-  var totalCats = categories.length;
-  var totalSubs = 0;
-  for (var i = 0; i < categories.length; i++) totalSubs += categories[i].subs.length;
-  var withImg = products.filter(function(p){return p.img && p.img.length > 10;}).length;
-
-  row.innerHTML =
-    '<div class="stat-card"><div class="stat-num">' + totalProducts + '</div><div class="stat-label">Productos</div></div>' +
-    '<div class="stat-card"><div class="stat-num">' + totalCats + '</div><div class="stat-label">Categorías</div></div>' +
-    '<div class="stat-card"><div class="stat-num">' + totalSubs + '</div><div class="stat-label">Sub-categorías</div></div>' +
-    '<div class="stat-card"><div class="stat-num">' + withImg + '</div><div class="stat-label">Con Imagen</div></div>';
-}
-
-// ===== ADMIN PRODUCT LIST =====
-function populateFilterCat() {
-  var sel = document.getElementById('filterCat');
-  var html = '<option value="all">📂 Todas las categorías</option>';
-  for (var i = 0; i < categories.length; i++) {
-    html += '<option value="' + categories[i].id + '">' + categories[i].icon + ' ' + categories[i].name + '</option>';
-  }
-  sel.innerHTML = html;
-}
-
-function renderAdminList() {
-  var search = (document.getElementById('adminSearch') ? document.getElementById('adminSearch').value : '').toLowerCase();
-  var filterCat = document.getElementById('filterCat') ? document.getElementById('filterCat').value : 'all';
-
-  var filtered = products;
-  if (search) filtered = filtered.filter(function(p) { return p.name.toLowerCase().indexOf(search) >= 0; });
-  if (filterCat && filterCat !== 'all') filtered = filtered.filter(function(p) { return p.cat === filterCat; });
-
-  var list = document.getElementById('adminProdList');
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div><p>No se encontraron productos</p><small>Intentá con otra búsqueda o agregá nuevos</small></div>';
-    return;
-  }
-
-  var html = '';
-  for (var i = 0; i < filtered.length; i++) {
-    var p = filtered[i];
-    var hasImg = p.img && p.img.length > 10;
-    html += '<div class="api">' +
-      (hasImg ? '<img class="api-img" src="' + p.img + '" alt="' + p.name + '" onerror="this.outerHTML=\'<div class=\\\'api-ph\\\'>📦</div>\'">' : '<div class="api-ph">📦</div>') +
-      '<div class="api-in">' +
-      '<div class="api-n">' + p.name + '</div>' +
-      '<div class="api-c">' + getCatIcon(p.cat) + ' ' + getCatName(p.cat) + ' · ' + getSubName(p.cat, p.sub) + '</div>' +
-      '</div>' +
-      '<div class="api-pr">' + fmt(p.price) + '</div>' +
-      '<div class="api-act">' +
-      '<button class="ab ii" title="Cambiar URL de imagen" onclick="openImgModal(\'' + p.id + '\')">📷</button>' +
-      '<button class="ab ei" title="Editar producto" onclick="editProduct(\'' + p.id + '\')">✏️</button>' +
-      '<button class="ab fe" title="Toggle destacado" onclick="toggleFeatured(\'' + p.id + '\')">' + (p.featured ? '⭐' : '☆') + '</button>' +
-      '<button class="ab di" title="Eliminar" onclick="deleteProduct(\'' + p.id + '\')">🗑️</button>' +
-      '</div>' +
-      '</div>';
-  }
-  list.innerHTML = html;
-}
-
-function toggleFeatured(id) {
-  for (var i = 0; i < products.length; i++) {
-    if (products[i].id === id) {
-      products[i].featured = !products[i].featured;
-      saveProducts();
-      renderAdminList();
-      showToast(products[i].featured ? '⭐ Marcado como destacado' : '☆ Quitado de destacados', '');
-      break;
-    }
-  }
-}
-
-// ===== ADD / EDIT PRODUCT =====
-function populateCatSelects() {
-  var catSel = document.getElementById('prodCat');
-  var html = '';
-  for (var i = 0; i < categories.length; i++) {
-    html += '<option value="' + categories[i].id + '">' + categories[i].icon + ' ' + categories[i].name + '</option>';
-  }
-  catSel.innerHTML = html;
-  updateSubSelect();
-  catSel.onchange = updateSubSelect;
-}
-
-function updateSubSelect() {
-  var catId = document.getElementById('prodCat').value;
-  var subSel = document.getElementById('prodSub');
-  var cat = getCat(catId);
-  var html = '';
-  if (cat) {
-    for (var i = 0; i < cat.subs.length; i++) {
-      html += '<option value="' + cat.subs[i].id + '">' + cat.subs[i].name + '</option>';
-    }
-  }
-  subSel.innerHTML = html;
-}
-
-function saveProduct() {
-  var name = document.getElementById('prodName').value.trim();
-  var cat = document.getElementById('prodCat').value;
-  var sub = document.getElementById('prodSub').value;
-  var price = parseInt(document.getElementById('prodPrice').value);
-  var editId = document.getElementById('editProdId').value;
-  var imgUrl = document.getElementById('prodImgUrl').value.trim();
-
-  if (!name) { showToast('⚠️ Ingresá un nombre', 'er'); return; }
-  if (!price || price <= 0) { showToast('⚠️ Ingresá un precio válido', 'er'); return; }
-
-  if (editId) {
-    var found = false;
-    for (var i = 0; i < products.length; i++) {
-      if (products[i].id === editId) {
-        products[i].name = name;
-        products[i].cat = cat;
-        products[i].sub = sub;
-        products[i].price = price;
-        if (imgUrl) products[i].img = imgUrl;
-        found = true;
-        break;
-      }
-    }
-    if (!found) { showToast('❌ Producto no encontrado', 'er'); return; }
-    showToast('✅ Producto actualizado correctamente', 'su');
-  } else {
-    var newId = genId();
-    products.push({id: newId, name: name, cat: cat, sub: sub, price: price, img: imgUrl || '', featured: false});
-    showToast('✅ Producto creado exitosamente', 'su');
-  }
-
-  saveProducts();
-  resetForm();
-  renderAdminList();
-  renderStats();
-}
-
-function editProduct(id) {
-  var prod = products.find(function(p) { return p.id === id; });
-  if (!prod) { showToast('❌ Producto no encontrado', 'er'); return; }
-
-  populateCatSelects();
-
-  document.getElementById('prodCat').value = prod.cat;
-  updateSubSelect();
-  document.getElementById('prodSub').value = prod.sub;
-
-  document.getElementById('prodName').value = prod.name;
-  document.getElementById('prodPrice').value = prod.price;
-  document.getElementById('prodImgUrl').value = prod.img || '';
-  document.getElementById('editProdId').value = prod.id;
-  document.getElementById('formTitle').textContent = '✏️ Editar: ' + prod.name;
-
-  if (prod.img) {
-    var preview = document.getElementById('formImgPreview');
-    preview.src = prod.img;
-    preview.classList.add('v');
-  } else {
-    document.getElementById('formImgPreview').classList.remove('v');
-  }
-
-  showATab('add');
-}
-
-function deleteProduct(id) {
-  var prod = products.find(function(p) { return p.id === id; });
-  if (!prod) return;
-  showConfirm('¿Eliminar producto?', 'Se eliminará "' + prod.name + '" permanentemente.', function() {
-    products = products.filter(function(p) { return p.id !== id; });
-    cart = cart.filter(function(c) { return c.id !== id; });
-    saveProducts();
-    saveCart();
-    renderAdminList();
-    renderStats();
-    showToast('🗑️ Producto eliminado', '');
-  });
-}
-
-function resetForm() {
-  document.getElementById('prodName').value = '';
-  document.getElementById('prodPrice').value = '';
-  document.getElementById('prodImgUrl').value = '';
-  document.getElementById('editProdId').value = '';
-  document.getElementById('formTitle').textContent = '➕ Agregar Nuevo Producto';
-  var preview = document.getElementById('formImgPreview');
-  preview.src = '';
-  preview.classList.remove('v');
-  populateCatSelects();
-}
-
-function previewProdImg() {
-  var url = document.getElementById('prodImgUrl').value.trim();
-  var preview = document.getElementById('formImgPreview');
-  if (url) {
-    preview.src = url;
-    preview.classList.add('v');
-    preview.onerror = function() { showToast('⚠️ No se pudo cargar la imagen', 'er'); };
-  } else {
-    preview.src = '';
-    preview.classList.remove('v');
-  }
-}
-
-// ===== CATEGORY MANAGER =====
-function renderCatManager() {
-  var container = document.getElementById('catManager');
-  if (!categories.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏷️</div><p>No hay categorías</p><small>Agregá una nueva categoría abajo</small></div>';
-    return;
-  }
-
-  var html = '';
-  for (var i = 0; i < categories.length; i++) {
-    var cat = categories[i];
-    var prodCount = products.filter(function(p) { return p.cat === cat.id; }).length;
-
-    html += '<div class="cat-item">' +
-      '<span class="cat-icon">' + cat.icon + '</span>' +
-      '<div style="flex:1;min-width:0">' +
-      '<div class="cat-name">' + cat.name + '</div>' +
-      '<div class="subcat-tags">';
-    for (var s = 0; s < cat.subs.length; s++) {
-      html += '<span class="subcat-tag">' + cat.subs[s].name + '</span>';
-    }
-    html += '</div></div>' +
-      '<span class="cat-count">' + prodCount + ' prod.</span>' +
-      '<div class="cat-act">' +
-      '<button class="ab ei" title="Editar categoría" onclick="editCategory(\'' + cat.id + '\')">✏️</button>' +
-      '<button class="ab di" title="Eliminar categoría" onclick="deleteCategory(\'' + cat.id + '\')">🗑️</button>' +
-      '</div>' +
-      '</div>';
-  }
-  container.innerHTML = html;
-}
-
-function addCategory() {
-  var name = document.getElementById('newCatName').value.trim();
-  var icon = document.getElementById('newCatIcon').value.trim() || '📦';
-  var subsStr = document.getElementById('newCatSubs').value.trim();
-
-  if (!name) { showToast('⚠️ Ingresá un nombre', 'er'); return; }
-
-  var subs = [];
-  if (subsStr) {
-    var subArr = subsStr.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-    for (var i = 0; i < subArr.length; i++) {
-      subs.push({id: subArr[i].toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '_' + Date.now(), name: subArr[i]});
-    }
-  }
-  if (!subs.length) subs.push({id: 'default_' + Date.now(), name: 'General'});
-
-  categories.push({id: 'cat_' + Date.now(), name: name, icon: icon, subs: subs});
-  saveCategories();
-
-  document.getElementById('newCatName').value = '';
-  document.getElementById('newCatIcon').value = '';
-  document.getElementById('newCatSubs').value = '';
-
-  renderCatManager();
-  renderStats();
-  showToast('✅ Categoría "' + name + '" creada', 'su');
-}
-
-function editCategory(id) {
-  var cat = getCat(id);
-  if (!cat) return;
-
-  var newName = prompt('Nombre de la categoría:', cat.name);
-  if (newName === null || !newName.trim()) return;
-
-  var newIcon = prompt('Icono (emoji):', cat.icon);
-  if (newIcon !== null) cat.icon = newIcon.trim() || '📦';
-  cat.name = newName.trim();
-
-  var subsHtml = 'Sub-categorías actuales:\n';
-  for (var i = 0; i < cat.subs.length; i++) {
-    subsHtml += (i+1) + '. ' + cat.subs[i].name + '\n';
-  }
-  subsHtml += '\nIngresá las sub-categorías separadas por coma:';
-  var newSubs = prompt(subsHtml, cat.subs.map(function(s){return s.name;}).join(', '));
-
-  if (newSubs !== null) {
-    var subArr = newSubs.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-    var newSubObjects = [];
-    for (var j = 0; j < subArr.length; j++) {
-      var existing = cat.subs.find(function(s) { return s.name === subArr[j]; });
-      newSubObjects.push(existing ? existing : {id: subArr[j].toLowerCase().replace(/\s+/g,'_') + '_' + Date.now(), name: subArr[j]});
-    }
-    cat.subs = newSubObjects;
-  }
-
-  saveCategories();
-  renderCatManager();
-  showToast('✅ Categoría actualizada', 'su');
-}
-
-function deleteCategory(id) {
-  var cat = getCat(id);
-  if (!cat) return;
-  var prodCount = products.filter(function(p) { return p.cat === id; }).length;
-  var msg = 'Se eliminará la categoría "' + cat.name + '"';
-  if (prodCount > 0) msg += ' y sus ' + prodCount + ' productos asociados';
-  msg += '. ¿Continuar?';
-
-  showConfirm('¿Eliminar categoría?', msg, function() {
-    products = products.filter(function(p) { return p.cat !== id; });
-    categories = categories.filter(function(c) { return c.id !== id; });
-    saveCategories();
-    saveProducts();
-    renderCatManager();
-    renderStats();
-    showToast('🗑️ Categoría eliminada', '');
-  });
-}
-
-// ===== SUPPLIER =====
-function parseSupplierFile(input) {
-  if (!input.files || !input.files[0]) return;
-  var reader = new FileReader();
-  reader.onload = function(e) { parseSupplierText(e.target.result); };
-  reader.readAsText(input.files[0]);
-}
-
-function parseSupplierText(text) {
-  supplierParsed = [];
-  var lines = text.split('\n').filter(function(l) { return l.trim(); });
-
-  for (var i = 0; i < lines.length; i++) {
-    var parts = lines[i].split(',');
-    if (parts.length < 2) parts = lines[i].split('\t');
-    if (parts.length < 2) parts = lines[i].split(';');
-    if (parts.length < 2) parts = lines[i].split('|');
-    if (parts.length < 2) continue;
-
-    var name = parts[0].trim();
-    var priceStr = parts[parts.length - 1].trim().replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
-    var price = parseFloat(priceStr);
-
-    if (name && !isNaN(price) && price > 0) {
-      supplierParsed.push({name: name, price: Math.round(price)});
-    }
-  }
-
-  renderParsedProducts();
-}
-
-function renderParsedProducts() {
-  var container = document.getElementById('parsedProducts');
-  var actions = document.getElementById('supplierActions');
-
-  if (!supplierParsed.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📄</div><p>No se pudieron extraer productos</p><small>Verificá el formato del archivo</small></div>';
-    actions.style.display = 'none';
-    return;
-  }
-
-  var html = '<p style="font-size:12px;color:var(--tm);font-weight:600;margin-bottom:8px">📋 ' + supplierParsed.length + ' productos detectados:</p>';
-  for (var i = 0; i < supplierParsed.length; i++) {
-    html += '<div class="pp-item"><span class="ppn">📦 ' + supplierParsed[i].name + '</span><span class="ppp">' + fmt(supplierParsed[i].price) + '</span></div>';
-  }
-  container.innerHTML = html;
-  actions.style.display = 'flex';
-}
-
-function importSupplierProducts() {
-  if (!supplierParsed.length) return;
-  var imported = 0, skipped = 0;
-
-  for (var i = 0; i < supplierParsed.length; i++) {
-    var sp = supplierParsed[i];
-    var exists = products.find(function(p) { return p.name.toLowerCase() === sp.name.toLowerCase(); });
-    if (!exists) {
-      products.push({id: genId(), name: sp.name, cat: categories.length ? categories[0].id : '', sub: categories.length && categories[0].subs.length ? categories[0].subs[0].id : '', price: sp.price, img: '', featured: false});
-      imported++;
-    } else { skipped++; }
-  }
-
-  saveProducts();
-  clearSupplier();
-  renderStats();
-  showToast('✅ ' + imported + ' importados' + (skipped ? ' (' + skipped + ' duplicados)' : ''), 'su');
-}
-
-function clearSupplier() {
-  supplierParsed = [];
-  document.getElementById('parsedProducts').innerHTML = '';
-  document.getElementById('supplierActions').style.display = 'none';
-  var fi = document.getElementById('supplierFile');
-  if (fi) fi.value = '';
-}
-
-// ===== BULK PRICES =====
-function renderBulkPrices() {
-  var container = document.getElementById('bulkPriceList');
-  if (!container) return;
-  var html = '';
-
-  for (var ci = 0; ci < categories.length; ci++) {
-    var cat = categories[ci];
-    html += '<h4 style="font-size:15px;color:var(--pd);margin:16px 0 8px">' + cat.icon + ' ' + cat.name + '</h4>';
-
-    for (var si = 0; si < cat.subs.length; si++) {
-      var sub = cat.subs[si];
-      var count = products.filter(function(p) { return p.cat === cat.id && p.sub === sub.id; }).length;
-      var inputId = 'bulk_' + cat.id + '_' + sub.id;
-      html += '<div class="br">' +
-        '<label>' + sub.name + ' <small style="color:var(--tl)">(' + count + ')</small></label>' +
-        '<input type="number" id="' + inputId + '" placeholder="Precio">' +
-        '<span class="bc">ARS</span>' +
-        '</div>';
-    }
-  }
-
-  container.innerHTML = html;
-
-  for (var ci2 = 0; ci2 < categories.length; ci2++) {
-    var cat2 = categories[ci2];
-    for (var si2 = 0; si2 < cat2.subs.length; si2++) {
-      var sub2 = cat2.subs[si2];
-      var inputId2 = 'bulk_' + cat2.id + '_' + sub2.id;
-      var el = document.getElementById(inputId2);
-      if (el) {
-        var sample = products.find(function(p) { return p.cat === cat2.id && p.sub === sub2.id; });
-        if (sample) el.value = sample.price;
-      }
-    }
-  }
-}
-
-function applyBulkPrices() {
-  var updated = 0;
-
-  for (var ci = 0; ci < categories.length; ci++) {
-    var cat = categories[ci];
-    for (var si = 0; si < cat.subs.length; si++) {
-      var sub = cat.subs[si];
-      var inputId = 'bulk_' + cat.id + '_' + sub.id;
-      var el = document.getElementById(inputId);
-      if (!el) continue;
-      var newPrice = parseInt(el.value);
-      if (!newPrice || newPrice <= 0) continue;
-
-      for (var pi = 0; pi < products.length; pi++) {
-        if (products[pi].cat === cat.id && products[pi].sub === sub.id) {
-          products[pi].price = newPrice;
-          updated++;
-        }
-      }
-    }
-  }
-
-  saveProducts();
-  showToast('✅ ' + updated + ' precios actualizados', 'su');
-}
-
-// ===== EXPORT CODE =====
-function generateExportCode() {
-  var area = document.getElementById('exportArea');
-  var textarea = document.getElementById('exportCode');
-
-  var fullCode = JSON.stringify(products, null, 2);
-
-  textarea.value = fullCode;
-  area.style.display = 'block';
-  showToast('📥 Código generado. Copialo y reemplazalo en tu HTML.', 'su');
-}
-
-function copyExportCode() {
-  var textarea = document.getElementById('exportCode');
-  textarea.select();
-  textarea.setSelectionRange(0, 99999);
-
-  try {
-    navigator.clipboard.writeText(textarea.value).then(function() {
-      showToast('📋 ¡Código copiado al portapapeles!', 'su');
-    });
-  } catch(e) {
-    document.execCommand('copy');
-    showToast('📋 ¡Código copiado!', 'su');
-  }
-}
-
-function downloadExportFile() {
-  var data = JSON.stringify(products, null, 2);
-  var blob = new Blob([data], {type: 'application/json'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'palmimport_productos.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('💾 Archivo descargado', 'su');
-}
-
-// ===== INIT =====
-function init() {
-  loadCategories();
-  loadProducts();
-  loadCart();
-  renderCatalog();
-  updateCartUI();
-}
-
-window.addEventListener('hashchange', checkRoute);
-window.addEventListener('DOMContentLoaded', function() {
-  checkRoute();
-  if (!window.location.hash) init();
-});
-</script>
-</body>
-</html>
-
+]
