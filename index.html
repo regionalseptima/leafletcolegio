@@ -286,6 +286,13 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
 .confirm-actions{display:flex;gap:10px}
 .confirm-actions .btn{flex:1}
 
+/* Image URL Input */
+.img-url-input{display:flex;gap:8px;align-items:flex-start}
+.img-url-input input{flex:1}
+.img-url-input .btn{flex-shrink:0;padding:11px 16px}
+.img-preview-small{width:100%;max-height:150px;object-fit:contain;border-radius:8px;margin-top:8px;display:none;background:var(--pp)}
+.img-preview-small.v{display:block}
+
 /* Responsive */
 @media(max-width:600px){
   .hdr-in{padding:10px 12px}
@@ -409,19 +416,22 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
 <!-- TOAST -->
 <div class="tc" id="tc"></div>
 
-<!-- ===== IMAGE MODAL ===== -->
+<!-- ===== IMAGE URL MODAL ===== -->
 <div class="mo" id="imgModal">
   <div class="mc">
-    <h3>📷 Subir Imagen del Producto</h3>
-    <img id="modalImgPreview" class="mpr" alt="Preview">
-    <div class="fiw" onclick="document.getElementById('modalImgInput').click()">
-      <p style="font-size:28px;margin-bottom:4px">📸</p>
-      <p style="font-size:13px;color:var(--tm);font-weight:600">Tocá para elegir una imagen</p>
-      <small style="color:var(--tl)">JPG, PNG — se guarda en base64</small>
+    <h3>📷 Imagen del Producto</h3>
+    <p style="font-size:12px;color:var(--tl);margin-bottom:14px">Pegá el link de la imagen (ImgBB, Cloudinary, etc.)</p>
+    <div class="fg">
+      <label>URL de la imagen</label>
+      <input type="text" id="modalImgUrl" placeholder="https://i.ibb.co/.../imagen.jpg">
     </div>
-    <input type="file" id="modalImgInput" accept="image/*" style="display:none" onchange="handleModalImg(this)">
+    <img id="modalImgPreview" class="mpr" alt="Preview">
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn btn-s btn-sm" onclick="previewModalImg()">👁️ Ver Preview</button>
+      <button class="btn btn-s btn-sm" onclick="document.getElementById('modalImgUrl').value='';document.getElementById('modalImgPreview').classList.remove('v')">🗑️ Limpiar</button>
+    </div>
     <div class="fa">
-      <button class="btn btn-p" onclick="saveModalImg()">💾 Guardar</button>
+      <button class="btn btn-p" onclick="saveModalImg()">💾 Guardar URL</button>
       <button class="btn btn-s" onclick="closeImgModal()">Cancelar</button>
     </div>
   </div>
@@ -532,7 +542,7 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
       <div class="as" id="tabProducts">
         <div class="ac">
           <h3>📦 Todos los Productos</h3>
-          <p class="as2">Editá, eliminá o subí imágenes. Clic en un producto para editarlo rápido.</p>
+          <p class="as2">Editá, eliminá o cambiá la URL de la imagen. Clic en un producto para editarlo rápido.</p>
           <div class="sr"><input type="text" class="sb2" placeholder="Buscar producto por nombre..." id="adminSearch" oninput="renderAdminList()"></div>
           <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
             <select id="filterCat" onchange="renderAdminList()" style="padding:8px 12px;border:2px solid var(--pp);border-radius:8px;font-family:inherit;font-size:12px;background:var(--ppu)">
@@ -575,14 +585,13 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
             <div class="fg"><label>Precio ($) *</label><input type="number" id="prodPrice" placeholder="38000"></div>
           </div>
           <div class="fg">
-            <label>Imagen del producto</label>
-            <div class="fiw" onclick="document.getElementById('formImgInput').click()">
-              <p style="font-size:28px;margin-bottom:4px">📸</p>
-              <p style="font-size:13px;color:var(--tm);font-weight:600">Tocá para subir imagen</p>
-              <small style="color:var(--tl)">JPG, PNG — opcional</small>
+            <label>Imagen del producto (URL externa)</label>
+            <div class="img-url-input">
+              <input type="text" id="prodImgUrl" placeholder="Pegá el link de ImgBB, Cloudinary, etc.">
+              <button class="btn btn-s btn-sm" onclick="previewProdImg()">👁️ Ver</button>
             </div>
-            <img id="formImgPreview" class="mpr" alt="Preview" style="margin-top:10px">
-            <input type="file" id="formImgInput" accept="image/*" style="display:none" onchange="previewFormImg(this)">
+            <img id="formImgPreview" class="img-preview-small" alt="Preview">
+            <small style="color:var(--tl);font-size:11px;display:block;margin-top:6px">💡 Tip: Subí tus fotos a <a href="https://imgbb.com" target="_blank" style="color:var(--p)">ImgBB.com</a> (gratis) y copiá el link directo de la imagen.</small>
           </div>
           <input type="hidden" id="editProdId" value="">
           <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
@@ -630,15 +639,15 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
       <div class="as" id="tabExport">
         <div class="ac">
           <h3>📥 Exportar Código Actualizado</h3>
-          <p class="as2">Copiá este código y reemplazá la variable <code style="background:var(--pp);padding:2px 6px;border-radius:4px">DEFAULT_PRODUCTS</code> en tu archivo HTML para que los cambios sean permanentes y visibles para todos tus clientes.</p>
+          <p class="as2">Copiá este código y reemplazá la variable <code style="background:var(--pp);padding:2px 6px;border-radius:4px">DEFAULT_PRODUCTS</code> en tu archivo HTML para que los cambios sean permanentes.</p>
           <div style="background:var(--warnl);padding:14px 18px;border-radius:12px;margin-bottom:18px;font-size:12px;color:var(--or);display:flex;align-items:flex-start;gap:10px">
             <span style="font-size:20px;flex-shrink:0">⚠️</span>
             <div>
               <strong>Instrucciones:</strong><br>
               1. Copiá el código que aparece abajo<br>
               2. Abrí tu archivo HTML en un editor de texto<br>
-              3. Buscá <code>var DEFAULT_PRODUCTS = [</code> y reemplazá todo lo que está entre <code>[ ]</code> por el código copiado<br>
-              4. Guardá el archivo y subilo de nuevo
+              3. Buscá <code>var DEFAULT_PRODUCTS = [</code> y reemplazá todo lo que está entre <code>[ ]</code><br>
+              4. Guardá y subí el archivo
             </div>
           </div>
           <button class="btn btn-p" onclick="generateExportCode()" style="margin-bottom:14px">🔄 Generar Código Actualizado</button>
@@ -647,7 +656,7 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
             <textarea id="exportCode" readonly></textarea>
           </div>
           <div style="margin-top:16px">
-            <button class="btn btn-s" onclick="downloadExportFile()">💾 Descargar archivo .js</button>
+            <button class="btn btn-s" onclick="downloadExportFile()">💾 Descargar archivo .json</button>
           </div>
         </div>
       </div>
@@ -658,7 +667,7 @@ body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;backgroun
 
 <script>
 /* ================================================================
-   PALMIMPORT — Professional Store Manager
+   PALMIMPORT — Professional Store Manager (URL Images)
    ================================================================ */
 
 // ===== DEFAULT DATA =====
@@ -862,7 +871,6 @@ function renderSections() {
       html += '<div class="ss">';
       html += '<div class="ss-h"><div class="ss-i cl"></div><span class="ss-t">' + sub.name + '</span>';
 
-      // Find a price example
       if (subProducts.length) {
         html += '<span class="ss-p">Desde ' + fmt(subProducts[0].price) + '</span>';
       }
@@ -873,7 +881,7 @@ function renderSections() {
         var p = subProducts[pi];
         var inCart = cart.find(function(c) { return c.id === p.id; });
         var isFeatured = featured.indexOf(p.name) >= 0;
-        var imgHtml = p.img ? '<img class="pc-img" src="' + p.img + '" alt="">' : '<span class="pd"></span>';
+        var imgHtml = p.img ? '<img class="pc-img" src="' + p.img + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="pd"></span>';
 
         html += '<div class="pc ' + (inCart ? 'ic' : '') + '" data-pid="' + p.id + '">' +
           imgHtml +
@@ -886,7 +894,6 @@ function renderSections() {
       html += '</div></div>';
     }
 
-    // Status footer
     if (cat.id === 'cat_splashes') {
       html += '<div class="sf"><span class="sb cl2">⏳ Cerrando pedido</span><span style="font-size:11px;color:var(--tl)">💬 Los más pedidos te los recomiendo 🙌</span></div>';
     } else if (cat.id === 'cat_cremas') {
@@ -905,7 +912,6 @@ function renderSections() {
 
     html += '<div id="' + secId + '" class="sec">';
 
-    // Category header
     html += '<div class="sh">';
     html += '<h2>' + cat2.icon + ' ' + cat2.name + '</h2>';
     html += '<p class="sub">' + catProds.length + ' producto' + (catProds.length !== 1 ? 's' : '') + '</p>';
@@ -927,7 +933,7 @@ function renderSections() {
         var prod2 = subProds2[pj];
         var inCart2 = cart.find(function(c) { return c.id === prod2.id; });
         var isFeat2 = feat2.indexOf(prod2.name) >= 0;
-        var imgHtml2 = prod2.img ? '<img class="pc-img" src="' + prod2.img + '" alt="">' : '<span class="pd"></span>';
+        var imgHtml2 = prod2.img ? '<img class="pc-img" src="' + prod2.img + '" alt="" onerror="this.style.display=\'none\'">' : '<span class="pd"></span>';
 
         html += '<div class="pc ' + (inCart2 ? 'ic' : '') + '">' +
           imgHtml2 +
@@ -940,7 +946,6 @@ function renderSections() {
       html += '</div></div>';
     }
 
-    // Gloss special
     if (cat2.id === 'cat_gloss') {
       html = html.replace('<div class="sh">', '<div class="gs"><span class="gb">🔥 Oferta</span><h2>💄 Gloss</h2><p>Variedad disponible · Ideal para sumar al pedido o regalar</p><div class="gp">$26.600</div><div class="gpo">En MDP hasta $32.500</div><p style="font-size:12px;opacity:.7;margin-top:6px">✨ Escribime y te paso opciones disponibles</p></div><div class="sh">');
     }
@@ -1073,13 +1078,22 @@ function sendWA() {
   window.open('https://wa.me/5492234481625?text=' + encodeURIComponent(msg), '_blank');
 }
 
-// ===== IMAGE MODAL =====
+// ===== IMAGE URL MODAL =====
 function openImgModal(productId) {
   modalUploadId = productId;
   var prod = products.find(function(p) { return p.id === productId; });
   var preview = document.getElementById('modalImgPreview');
-  if (prod && prod.img) { preview.src = prod.img; preview.classList.add('v'); }
-  else { preview.src = ''; preview.classList.remove('v'); }
+  var urlInput = document.getElementById('modalImgUrl');
+
+  if (prod && prod.img) {
+    urlInput.value = prod.img;
+    preview.src = prod.img;
+    preview.classList.add('v');
+  } else {
+    urlInput.value = '';
+    preview.src = '';
+    preview.classList.remove('v');
+  }
   document.getElementById('imgModal').classList.add('o');
 }
 
@@ -1088,28 +1102,28 @@ function closeImgModal() {
   modalUploadId = null;
 }
 
-function handleModalImg(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var preview = document.getElementById('modalImgPreview');
-      preview.src = e.target.result;
-      preview.classList.add('v');
-    };
-    reader.readAsDataURL(input.files[0]);
+function previewModalImg() {
+  var url = document.getElementById('modalImgUrl').value.trim();
+  var preview = document.getElementById('modalImgPreview');
+  if (url) {
+    preview.src = url;
+    preview.classList.add('v');
+    preview.onerror = function() { preview.classList.remove('v'); };
+  } else {
+    preview.src = '';
+    preview.classList.remove('v');
   }
 }
 
 function saveModalImg() {
   if (!modalUploadId) return;
-  var preview = document.getElementById('modalImgPreview');
-  if (!preview.classList.contains('v')) { showToast('⚠️ Seleccioná una imagen', 'er'); return; }
+  var url = document.getElementById('modalImgUrl').value.trim();
   for (var i = 0; i < products.length; i++) {
     if (products[i].id === modalUploadId) {
-      products[i].img = preview.src;
+      products[i].img = url;
       saveProducts();
       renderAdminList();
-      showToast('📷 Imagen guardada', 'su');
+      showToast('📷 Imagen actualizada', 'su');
       break;
     }
   }
@@ -1217,7 +1231,7 @@ function renderStats() {
   var totalCats = categories.length;
   var totalSubs = 0;
   for (var i = 0; i < categories.length; i++) totalSubs += categories[i].subs.length;
-  var withImg = products.filter(function(p){return p.img;}).length;
+  var withImg = products.filter(function(p){return p.img && p.img.length > 10;}).length;
 
   row.innerHTML =
     '<div class="stat-card"><div class="stat-num">' + totalProducts + '</div><div class="stat-label">Productos</div></div>' +
@@ -1253,15 +1267,16 @@ function renderAdminList() {
   var html = '';
   for (var i = 0; i < filtered.length; i++) {
     var p = filtered[i];
+    var hasImg = p.img && p.img.length > 10;
     html += '<div class="api">' +
-      (p.img ? '<img class="api-img" src="' + p.img + '" alt="' + p.name + '">' : '<div class="api-ph">📦</div>') +
+      (hasImg ? '<img class="api-img" src="' + p.img + '" alt="' + p.name + '" onerror="this.outerHTML=\'<div class=\\\'api-ph\\\'>📦</div>\'">' : '<div class="api-ph">📦</div>') +
       '<div class="api-in">' +
       '<div class="api-n">' + p.name + '</div>' +
       '<div class="api-c">' + getCatIcon(p.cat) + ' ' + getCatName(p.cat) + ' · ' + getSubName(p.cat, p.sub) + '</div>' +
       '</div>' +
       '<div class="api-pr">' + fmt(p.price) + '</div>' +
       '<div class="api-act">' +
-      '<button class="ab ii" title="Subir imagen" onclick="openImgModal(\'' + p.id + '\')">📷</button>' +
+      '<button class="ab ii" title="Cambiar URL de imagen" onclick="openImgModal(\'' + p.id + '\')">📷</button>' +
       '<button class="ab ei" title="Editar producto" onclick="editProduct(\'' + p.id + '\')">✏️</button>' +
       '<button class="ab fe" title="Toggle destacado" onclick="toggleFeatured(\'' + p.id + '\')">' + (p.featured ? '⭐' : '☆') + '</button>' +
       '<button class="ab di" title="Eliminar" onclick="deleteProduct(\'' + p.id + '\')">🗑️</button>' +
@@ -1314,14 +1329,12 @@ function saveProduct() {
   var sub = document.getElementById('prodSub').value;
   var price = parseInt(document.getElementById('prodPrice').value);
   var editId = document.getElementById('editProdId').value;
-  var preview = document.getElementById('formImgPreview');
-  var img = preview.classList.contains('v') ? preview.src : '';
+  var imgUrl = document.getElementById('prodImgUrl').value.trim();
 
   if (!name) { showToast('⚠️ Ingresá un nombre', 'er'); return; }
   if (!price || price <= 0) { showToast('⚠️ Ingresá un precio válido', 'er'); return; }
 
   if (editId) {
-    // EDIT existing
     var found = false;
     for (var i = 0; i < products.length; i++) {
       if (products[i].id === editId) {
@@ -1329,20 +1342,16 @@ function saveProduct() {
         products[i].cat = cat;
         products[i].sub = sub;
         products[i].price = price;
-        if (img) products[i].img = img;
+        if (imgUrl) products[i].img = imgUrl;
         found = true;
         break;
       }
     }
-    if (!found) {
-      showToast('❌ Producto no encontrado', 'er');
-      return;
-    }
+    if (!found) { showToast('❌ Producto no encontrado', 'er'); return; }
     showToast('✅ Producto actualizado correctamente', 'su');
   } else {
-    // CREATE new
     var newId = genId();
-    products.push({id: newId, name: name, cat: cat, sub: sub, price: price, img: img || '', featured: false});
+    products.push({id: newId, name: name, cat: cat, sub: sub, price: price, img: imgUrl || '', featured: false});
     showToast('✅ Producto creado exitosamente', 'su');
   }
 
@@ -1358,13 +1367,13 @@ function editProduct(id) {
 
   populateCatSelects();
 
-  // Set category first, then sub
   document.getElementById('prodCat').value = prod.cat;
   updateSubSelect();
   document.getElementById('prodSub').value = prod.sub;
 
   document.getElementById('prodName').value = prod.name;
   document.getElementById('prodPrice').value = prod.price;
+  document.getElementById('prodImgUrl').value = prod.img || '';
   document.getElementById('editProdId').value = prod.id;
   document.getElementById('formTitle').textContent = '✏️ Editar: ' + prod.name;
 
@@ -1372,6 +1381,8 @@ function editProduct(id) {
     var preview = document.getElementById('formImgPreview');
     preview.src = prod.img;
     preview.classList.add('v');
+  } else {
+    document.getElementById('formImgPreview').classList.remove('v');
   }
 
   showATab('add');
@@ -1394,6 +1405,7 @@ function deleteProduct(id) {
 function resetForm() {
   document.getElementById('prodName').value = '';
   document.getElementById('prodPrice').value = '';
+  document.getElementById('prodImgUrl').value = '';
   document.getElementById('editProdId').value = '';
   document.getElementById('formTitle').textContent = '➕ Agregar Nuevo Producto';
   var preview = document.getElementById('formImgPreview');
@@ -1402,15 +1414,16 @@ function resetForm() {
   populateCatSelects();
 }
 
-function previewFormImg(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var preview = document.getElementById('formImgPreview');
-      preview.src = e.target.result;
-      preview.classList.add('v');
-    };
-    reader.readAsDataURL(input.files[0]);
+function previewProdImg() {
+  var url = document.getElementById('prodImgUrl').value.trim();
+  var preview = document.getElementById('formImgPreview');
+  if (url) {
+    preview.src = url;
+    preview.classList.add('v');
+    preview.onerror = function() { showToast('⚠️ No se pudo cargar la imagen', 'er'); };
+  } else {
+    preview.src = '';
+    preview.classList.remove('v');
   }
 }
 
@@ -1485,7 +1498,6 @@ function editCategory(id) {
   if (newIcon !== null) cat.icon = newIcon.trim() || '📦';
   cat.name = newName.trim();
 
-  // Edit subs
   var subsHtml = 'Sub-categorías actuales:\n';
   for (var i = 0; i < cat.subs.length; i++) {
     subsHtml += (i+1) + '. ' + cat.subs[i].name + '\n';
@@ -1495,7 +1507,6 @@ function editCategory(id) {
 
   if (newSubs !== null) {
     var subArr = newSubs.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-    // Keep existing sub ids if name matches
     var newSubObjects = [];
     for (var j = 0; j < subArr.length; j++) {
       var existing = cat.subs.find(function(s) { return s.name === subArr[j]; });
@@ -1628,7 +1639,6 @@ function renderBulkPrices() {
 
   container.innerHTML = html;
 
-  // Pre-fill with current prices
   for (var ci2 = 0; ci2 < categories.length; ci2++) {
     var cat2 = categories[ci2];
     for (var si2 = 0; si2 < cat2.subs.length; si2++) {
@@ -1674,16 +1684,6 @@ function generateExportCode() {
   var area = document.getElementById('exportArea');
   var textarea = document.getElementById('exportCode');
 
-  var code = '[\n';
-  for (var i = 0; i < products.length; i++) {
-    var p = products[i];
-    code += '  {id:\'' + p.id + '\',name:\'' + p.name.replace(/'/g,"\\'") + '\',cat:\'' + p.cat + '\',sub:\'' + p.sub + '\',price:' + p.price + ',img:\'' + (p.img ? p.img.substring(0, 50) + '...' : '') + '\',featured:' + (p.featured ? 'true' : 'false') + '}';
-    if (i < products.length - 1) code += ',';
-    code += '\n';
-  }
-  code += ']';
-
-  // Full export with images
   var fullCode = JSON.stringify(products, null, 2);
 
   textarea.value = fullCode;
